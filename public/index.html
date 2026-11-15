@@ -1,1 +1,163 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>wablasting — Messaging workspace</title><link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script></head><body><aside><a class="brand" href="/">w<span>●</span>blasting</a><p>MESSAGING WORKSPACE</p><nav><a href="#connection">01 &nbsp; Koneksi WhatsApp</a><a href="#contacts">02 &nbsp; Kontak</a><a href="#campaign">03 &nbsp; Campaign</a></nav><small>Baileys engine<br>Unofficial WhatsApp client</small></aside><main><header><div><p class="eyebrow">YOUR COMMUNICATION, ORGANIZED</p><h1>Pesan yang tepat.<br>Koneksi yang dekat.</h1></div><button id="logout" hidden>Keluar</button></header><p id="notice" role="status"></p><section id="auth"><h2>Masuk ke workspace</h2><form id="login"><label>Email<input name="email" type="email" required autocomplete="username"></label><label>Password<input name="password" type="password" minlength="12" maxlength="128" required autocomplete="current-password"></label><label>Kode undangan <small>(untuk daftar)</small><input name="code" type="password"></label><div class="actions"><button name="action" value="login" class="primary">Masuk</button><button name="action" value="register">Buat akun</button></div></form></section><div id="workspace" hidden><section id="connection"><div class="sectionhead"><div><p class="eyebrow">01 / CONNECT</p><h2>WhatsApp kamu</h2></div><span id="wa-state" class="badge">Disconnected</span></div><p>Pindai QR lewat WhatsApp → Perangkat tertaut → Tautkan perangkat.</p><img id="qr" width="240" height="240" alt="QR untuk menautkan WhatsApp" hidden><p id="wa-phone"></p><div class="actions"><button id="connect" class="primary">Hubungkan WhatsApp</button><button id="disconnect">Putuskan & hapus sesi</button></div></section><div class="columns"><section id="contacts"><p class="eyebrow">02 / AUDIENCE</p><h2>Daftar kontak</h2><form id="contact-form"><label>Nama<input name="name" maxlength="100" required></label><label>Nomor WhatsApp<input name="phone" placeholder="628123456789" required></label><label class="check"><input name="optin" type="checkbox" required> Penerima sudah menyetujui pesan dari saya.</label><button>Tambah kontak</button></form><p class="muted">Hapus kontak untuk menghentikan pengiriman berikutnya ke nomor tersebut.</p><div id="contact-list"></div></section><section id="campaign"><p class="eyebrow">03 / COMPOSE</p><h2>Buat campaign</h2><form id="campaign-form"><label>Nama campaign<input name="name" maxlength="100" required></label><label>Pesan<textarea name="message" rows="7" maxlength="4000" placeholder="Halo {{nama}}, …" required></textarea></label><p class="muted">Gunakan {{nama}} untuk personalisasi. Pilih penerima dari daftar kontak. Maksimal 100 kontak per campaign.</p><button class="primary">Mulai pengiriman</button></form></section></div><section><p class="eyebrow">ACTIVITY</p><h2>Riwayat campaign</h2><div id="campaign-list"></div><pre id="details" hidden></pre></section></div><footer>Versi awal · Pengiriman berurutan · Status “sent” berarti diterima server, bukan bukti dibaca penerima.</footer></main></body></html>
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Kelola campaign WhatsApp, kontak, template, dan tim bisnis dalam satu workspace."
+    />
+    <title>wablasting — Hubungan baik dimulai dari pesan personal</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script defer src="/landing.js"></script>
+  </head>
+  <body class="landing">
+    <div class="site-wrap">
+      <nav class="site-nav">
+        <a href="/" class="brand" data-brand>wablasting</a>
+        <div>
+          <a href="#features">Fitur</a><a href="#pricing">Harga</a
+          ><a class="button" href="/app">Masuk</a>
+        </div>
+      </nav>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">A LITTLE MORE PERSONAL. A LOT MORE ORGANIZED.</p>
+          <h1>
+            Pesan personal.<br />Hubungan yang<br /><em>terus tumbuh.</em>
+          </h1>
+          <p>
+            Workspace WhatsApp untuk bisnis yang ingin tetap dekat dengan
+            pelanggannya. Kelola kontak, siapkan campaign, dan bekerja bersama
+            tim—dari satu tempat.
+          </p>
+          <div class="actions">
+            <a href="/app#register" class="button primary"
+              >Mulai trial 7 hari ↗</a
+            ><a href="#pricing" class="button">Temukan paketmu</a>
+          </div>
+          <small>Tanpa kartu kredit · 1 nomor WhatsApp per workspace</small>
+        </div>
+        <div class="hero-art" aria-label="Ilustrasi workspace campaign">
+          <div class="mock-head">
+            <span class="dot"></span> YOUR MESSAGING WORKSPACE <span>↗</span>
+          </div>
+          <div class="mock-card">
+            <p>CAMPAIGN PELANGGAN</p>
+            <h2>Bukan sekadar pesan.<br />Awal percakapan.</h2>
+            <div class="message">
+              <b>Halo, Rani 👋</b>
+              <p>
+                Terima kasih sudah jadi bagian dari perjalanan kami. Ada kabar
+                baru yang ingin kami bagikan.
+              </p>
+              <small>Balas STOP untuk berhenti menerima pesan.</small>
+            </div>
+            <div class="mock-foot">
+              <span>Personal by design.</span><strong>01 → 02 → 03</strong>
+            </div>
+          </div>
+          <div class="float-tag">✓ Kontak rapi. Tim selaras.</div>
+        </div>
+      </section>
+      <div class="feature-strip">
+        <span>QR pairing</span><span>Template personal</span
+        ><span>Jadwal campaign</span><span>Workspace tim</span
+        ><span>Kontrol kuota</span>
+      </div>
+      <section id="features" class="marketing-section">
+        <p class="eyebrow">EVERYTHING IN ITS PLACE</p>
+        <h2>Lebih tertata.<br />Lebih mudah dijalankan.</h2>
+        <div class="feature-grid">
+          <article>
+            <b>01 / AUDIENCE</b>
+            <h3>Kenali penerimamu.</h3>
+            <p>
+              Impor CSV, simpan sumber persetujuan, dan kelola daftar opt-out.
+              Kirim kepada pelanggan yang memang ingin mendengar dari bisnismu.
+            </p>
+          </article>
+          <article>
+            <b>02 / CAMPAIGNS</b>
+            <h3>Siapkan pesan yang relevan.</h3>
+            <p>
+              Personalisasi nama, pakai template, jadwalkan campaign, dan
+              periksa status setiap penerima.
+            </p>
+          </article>
+          <article>
+            <b>03 / TEAM</b>
+            <h3>Satu tim. Satu workspace.</h3>
+            <p>
+              Undang anggota dengan role yang jelas. Data bisnis terpisah,
+              pemakaian terukur, dan perubahan penting tercatat.
+            </p>
+          </article>
+        </div>
+      </section>
+      <section id="pricing" class="marketing-section">
+        <div class="sectionhead">
+          <div>
+            <p class="eyebrow">ROOM TO GROW</p>
+            <h2>Pilih ruang untuk bertumbuh.</h2>
+          </div>
+          <p>Periode 30 hari.<br />Aktivasi setelah verifikasi transfer.</p>
+        </div>
+        <div id="pricing-grid" class="plan-grid"></div>
+        <p class="muted">
+          Kuota adalah jumlah penerima yang dialokasikan ke campaign. Pengiriman
+          yang dibatalkan atau hasilnya tidak pasti tetap mengurangi kuota.
+          Trial: 50 penerima, 100 kontak, 1 anggota selama 7 hari.
+        </p>
+      </section>
+      <section class="marketing-section faq">
+        <p class="eyebrow">GOOD TO KNOW</p>
+        <h2>Sebelum memulai.</h2>
+        <details>
+          <summary>Bagaimana cara menghubungkan WhatsApp?</summary>
+          <p>
+            Daftar, verifikasi email, lalu scan QR dari menu Perangkat tertaut
+            di WhatsApp. Nomor kamu akan terhubung sebagai perangkat tertaut.
+          </p>
+        </details>
+        <details>
+          <summary>Apakah ini WhatsApp Business Platform resmi?</summary>
+          <p>
+            Bukan. Layanan menggunakan Baileys, klien unofficial WhatsApp Web.
+            Tidak terafiliasi dengan WhatsApp/Meta. Koneksi dapat berubah
+            mengikuti protokol dan akun dapat dibatasi. Tidak ada jaminan
+            anti-ban atau pesan selalu sampai.
+          </p>
+        </details>
+        <details>
+          <summary>Bagaimana pembayaran dan perpanjangan?</summary>
+          <p>
+            Pilih paket untuk membuat invoice, transfer sesuai instruksi, lalu
+            kirim referensi transfer. Admin memverifikasi sebelum paket aktif.
+            Tidak ada penagihan berulang otomatis. Perpanjangan tersedia saat
+            periode berbayar berakhir.
+          </p>
+        </details>
+        <details>
+          <summary>Bisakah saya berhenti menerima atau mengirim pesan?</summary>
+          <p>
+            Campaign bisa dijeda atau dibatalkan. Daftar opt-out menahan
+            pengiriman berikutnya; penerima dapat membalas STOP, BERHENTI, atau
+            UNSUBSCRIBE. Satu pesan yang sedang diproses mungkin sudah terkirim.
+          </p>
+        </details>
+      </section>
+      <section class="cta">
+        <p class="eyebrow">MAKE YOUR NEXT MESSAGE MATTER</p>
+        <h2>Mulai dari percakapan<br />yang lebih baik.</h2>
+        <a href="/app#register" class="button">Buat workspace ↗</a>
+      </section>
+      <footer>
+        <a href="/" data-brand>wablasting</a
+        ><span>© <span id="year"></span> <span data-business></span></span
+        ><a href="/terms.html">Ketentuan</a><a href="/privacy.html">Privasi</a
+        ><a data-support href="/app">Bantuan</a>
+      </footer>
+    </div>
+  </body>
+</html>

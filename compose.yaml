@@ -12,6 +12,10 @@ services:
       - "127.0.0.1:3000:3000"
     volumes:
       - app-data:/app/data
-    stop_grace_period: 15s
+    stop_grace_period: 60s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
 volumes:
   app-data:
