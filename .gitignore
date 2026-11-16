@@ -3,3 +3,7 @@ node_modules/
 data/
 *.log
 coverage/
+
+.env.backup.*
+.env.setup.*
+__pycache__/

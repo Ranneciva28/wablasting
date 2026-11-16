@@ -16,6 +16,12 @@ Aplikasi SaaS WhatsApp berbasis **Baileys**, dengan landing page, dashboard pela
 
 **Billing saat ini transfer manual.** Tidak ada payment gateway atau auto-debit yang berpura-pura aktif. Pelanggan tidak bisa mengaktifkan paketnya sendiri. Renewal hanya setelah periode berbayar berakhir; sisa kuota tidak dibawa. Aktivasi periode baru membatalkan campaign tertunda dari periode lama.
 
+## Setup Ubuntu tanpa nano
+
+Dari folder repository, jalankan `bash scripts/setup.sh`. Installer memeriksa Docker/Compose, menanyakan identitas bisnis, domain, email, SMTP dan rekening, lalu menyimpan `.env` secara atomik dengan permission 0600. File sebelumnya dibackup lokal dan tidak masuk Git. Kunci enkripsi yang valid dipertahankan; volume/database tidak dihapus. Detail login SMTP dibaca tanpa menampilkan password dan di-URL-encode otomatis.
+
+Installer tidak mengubah DNS, sertifikat TLS, reverse proxy atau website lain. Default domain wizard adalah `https://whapi.avicennarabama.com`. Detail SMTP asli tetap diperlukan. Jika database/volume lama ada tetapi kunci enkripsi hilang, pulihkan kunci dari backup sebelum melanjutkan.
+
 ## Mulai lokal — Node.js 24
 
 ```sh

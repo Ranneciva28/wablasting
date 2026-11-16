@@ -14,3 +14,5 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm test
+      - run: bash -n scripts/setup.sh
+      - run: python3 -m unittest discover -s test -p 'test_*.py'
