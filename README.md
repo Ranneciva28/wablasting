@@ -84,7 +84,7 @@ Gunakan **subdomain khusus** seperti `wa.domainmu.com`, dengan reverse proxy HTT
 1. Clone repo di server, buat `.env`, isi kunci dan konfigurasi produksi.
 2. Konfigurasi teknis minimum: `SESSION_ENCRYPTION_KEY`, `NODE_ENV=production`, `APP_URL=https://wa.domainmu.com`, dan `COOKIE_SECURE=true`. Detail bisnis, SMTP dan rekening dapat diisi belakangan melalui panel. Installer mengisi nilai teknis ini otomatis.
 3. Set `TRUST_PROXY` hanya ke IP/CIDR reverse proxy yang benar; proxy harus menimpa X-Forwarded-For. Jangan memakai `true` atau daftar proxy publik.
-4. Atur DNS, HTTPS, dan reverse proxy hosting panel ke `127.0.0.1:3000`; contoh Nginx ada di `deploy/nginx.conf`.
+4. Atur DNS, HTTPS, dan reverse proxy hosting panel ke port host aplikasi; setup baru memakai `127.0.0.1:3101` (`APP_HOST_PORT=3101`). Port di dalam container tetap 3000. Instalasi lama tanpa `APP_HOST_PORT` tetap memakai host port 3000. Contoh Nginx ada di `deploy/nginx.conf`.
 
 ```sh
 docker compose up -d --build
@@ -129,3 +129,7 @@ Baileys adalah **klien unofficial** dan tidak terafiliasi WhatsApp/Meta. Tidak a
 Belum ada integrasi payment gateway, multi-nomor per workspace, lampiran media, inbox percakapan, ataupun horizontal scaling. Deployment domain dan pengujian QR/pengiriman nyata memerlukan akses server serta HP milik pengelola. Halaman ketentuan/privasi mendeskripsikan perilaku aplikasi; identitas bisnis, prosedur sengketa/refund, dan retensi backup harus disesuaikan dengan operasi penjual.
 
 Referensi engine: https://github.com/WhiskeySockets/Baileys dan https://baileys.wiki/ . Email: https://nodemailer.com/smtp .
+
+### Jika host port 3000 sudah dipakai
+
+Tidak perlu mematikan layanan lain. Ubah/tambahkan `APP_HOST_PORT=3101` di `.env`, lalu jalankan `docker compose up -d --build`. Reverse proxy harus diarahkan ke `http://127.0.0.1:3101`. Jika 3101 juga dipakai, pilih port host lain. Installer memeriksa health dari dalam container dan menampilkan alamat host yang benar.

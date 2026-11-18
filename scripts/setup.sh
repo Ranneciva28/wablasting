@@ -68,7 +68,7 @@ elevated docker compose up -d --build
 
 ready=0
 for attempt in $(seq 1 45); do
-  if curl -fsS http://127.0.0.1:3000/health/ready >/dev/null 2>&1; then ready=1; break; fi
+  if elevated docker compose exec -T app node -e "fetch('http://127.0.0.1:3000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" >/dev/null 2>&1; then ready=1; break; fi
   sleep 2
 done
 if [ "$ready" -ne 1 ]; then
@@ -81,5 +81,6 @@ fi
 elevated docker compose exec -T app node scripts/preflight.js
 printf '\nAplikasi siap. Pengaturan layanan dilanjutkan lewat browser.\n'
 elevated docker compose exec -T app node scripts/setup-link.js
-printf 'Reverse proxy HTTPS subdomain diarahkan ke http://127.0.0.1:3000.\n'
+published_address="$(elevated docker compose port app 3000)"
+printf 'Reverse proxy HTTPS subdomain diarahkan ke http://%s.\n' "$published_address"
 printf 'DNS, SSL dan konfigurasi web server tidak diubah oleh installer.\n'
