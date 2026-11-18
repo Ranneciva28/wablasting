@@ -3,66 +3,93 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Kebijakan privasi</title>
-    <link rel="stylesheet" href="/style.css" />
-    <script defer src="/landing.js"></script>
+    <meta name="theme-color" content="#151c4e" />
+    <title>Kebijakan privasi — WABlast</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="/style.css?v=0.4.0" />
+    <script defer src="/landing.js?v=0.4.0"></script>
   </head>
   <body class="legal">
-    <a href="/" data-brand>wablasting</a>
-    <h1>Kebijakan privasi</h1>
-    <p>
+    <header class="wrap site-nav">
+      <a href="/" class="brand" aria-label="Beranda">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" fill="#24307f" />
+          <path d="M8.5 9h9.5a3.5 3.5 0 0 1 3.5 3.5v4a3.5 3.5 0 0 1-3.5 3.5h-4.6L9.6 23v-3.1A3.5 3.5 0 0 1 5 16.5v-4A3.5 3.5 0 0 1 8.5 9z" fill="#fff" />
+          <path d="M24.2 10.6a7 7 0 0 1 0 7.8M26.9 8.4a10.4 10.4 0 0 1 0 12.2" stroke="#f2b33d" stroke-width="2" stroke-linecap="round" fill="none" />
+        </svg>
+        <span data-brand>WABlast</span>
+      </a>
+      <nav aria-label="Navigasi utama">
+        <a href="/#harga">Harga</a>
+        <a class="button" href="/app">Masuk</a>
+      </nav>
+    </header>
+    <main class="doc">
+      <div class="doc-head">
+        <h1>Kebijakan privasi</h1>
+        <p>
       Berlaku 15 November 2026. Pengelola: <span data-business></span>. Kontak:
       <a data-support href="/app">Bantuan</a>.
     </p>
-    <h2>Data yang diproses</h2>
-    <p>
-      Kami menyimpan email akun, hash password, keanggotaan dan role workspace,
-      nama serta nomor kontak, sumber persetujuan, daftar opt-out, template, isi
-      campaign, hasil pengiriman dan ID pesan, langganan, invoice, serta log
-      perubahan penting. Sesi WhatsApp dan Signal keys diperlukan agar koneksi
-      perangkat tertaut dapat berjalan.
-    </p>
-    <h2>Tujuan dan akses</h2>
-    <p>
-      Data digunakan untuk login, mengirim pesan yang kamu minta, menjalankan
-      pengelolaan tim, menghitung kuota, memverifikasi pembayaran, menangani
-      opt-out, dan membantu operasional layanan. Anggota workspace mengakses
-      data sesuai role. Admin platform mengakses ringkasan pelanggan dan
-      pembayaran; pengelola infrastruktur dapat mengakses data server untuk
-      dukungan dan pemeliharaan. SMTP yang dikonfigurasi pengelola memproses
-      email verifikasi, reset password, dan undangan. Pesan dikirim melalui
-      WhatsApp dan tunduk pada pemrosesan layanan tersebut.
-    </p>
-    <h2>Keamanan dan cookie</h2>
-    <p>
-      Sesi WhatsApp dienkripsi di database dengan AES-256-GCM; password di-hash
-      dengan scrypt. Data kontak dan campaign tidak dienkripsi oleh aplikasi di
-      tingkat kolom. Cookie sesi bersifat HttpOnly dan berlaku hingga 24 jam.
-      Browser menyimpan ID workspace yang dipilih agar navigasi tetap konsisten;
-      token undangan disimpan sementara hingga diterima. Tidak ada cookie iklan
-      bawaan.
-    </p>
-    <h2>Retensi dan penghapusan</h2>
-    <p>
-      Data operasional tersimpan sampai owner menghapusnya atau meminta
-      penutupan akun. Invoice, langganan, dan log audit tidak dihapus oleh
-      tombol hapus data operasional; retensinya dikelola penyedia untuk
-      pembukuan dan penanganan sengketa. Email terkirim/gagal dihapus dari
-      antrean aplikasi setelah 7 hari; isi email sukses dikosongkan saat
-      terkirim. Token verifikasi/reset berlaku 1 jam, undangan berlaku 7 hari.
-      Salinan backup dapat tetap ada sampai rotasi backup pengelola selesai.
-    </p>
-    <p>
-      Owner dapat mengekspor kontak, persetujuan, opt-out, campaign dan hasil
-      pengiriman, serta menghapus data operasional di Pengaturan. Memutuskan
-      WhatsApp menghapus kredensial dari database aktif. Untuk akses, koreksi,
-      penutupan akun, penghapusan data lain, atau pertanyaan tentang backup,
-      hubungi kontak di atas. Pengirim bertanggung jawab menangani permintaan
-      privasi penerima pesan mereka.
-    </p>
-    <p>
-      <a href="/terms.html">Ketentuan layanan</a> ·
-      <a href="/app">Masuk ke aplikasi</a>
-    </p>
+      </div>
+
+      <h2>Data yang diproses</h2>
+      <p>
+        Kami menyimpan email akun, hash password, keanggotaan dan role workspace,
+        nama serta nomor kontak, sumber persetujuan, daftar opt-out, template, isi
+        campaign, hasil pengiriman dan ID pesan, langganan, invoice, serta log
+        perubahan penting. Sesi WhatsApp dan Signal keys diperlukan agar koneksi
+        perangkat tertaut dapat berjalan.
+      </p>
+      <h2>Tujuan dan akses</h2>
+      <p>
+        Data digunakan untuk login, mengirim pesan yang kamu minta, menjalankan
+        pengelolaan tim, menghitung kuota, memverifikasi pembayaran, menangani
+        opt-out, dan membantu operasional layanan. Anggota workspace mengakses
+        data sesuai role. Admin platform mengakses ringkasan pelanggan dan
+        pembayaran; pengelola infrastruktur dapat mengakses data server untuk
+        dukungan dan pemeliharaan. SMTP yang dikonfigurasi pengelola memproses
+        email verifikasi, reset password, dan undangan. Pesan dikirim melalui
+        WhatsApp dan tunduk pada pemrosesan layanan tersebut.
+      </p>
+      <h2>Keamanan dan cookie</h2>
+      <p>
+        Sesi WhatsApp dienkripsi di database dengan AES-256-GCM; password di-hash
+        dengan scrypt. Data kontak dan campaign tidak dienkripsi oleh aplikasi di
+        tingkat kolom. Cookie sesi bersifat HttpOnly dan berlaku hingga 24 jam.
+        Browser menyimpan ID workspace yang dipilih agar navigasi tetap konsisten;
+        token undangan disimpan sementara hingga diterima. Tidak ada cookie iklan
+        bawaan.
+      </p>
+      <h2>Retensi dan penghapusan</h2>
+      <p>
+        Data operasional tersimpan sampai owner menghapusnya atau meminta
+        penutupan akun. Invoice, langganan, dan log audit tidak dihapus oleh
+        tombol hapus data operasional; retensinya dikelola penyedia untuk
+        pembukuan dan penanganan sengketa. Email terkirim/gagal dihapus dari
+        antrean aplikasi setelah 7 hari; isi email sukses dikosongkan saat
+        terkirim. Token verifikasi/reset berlaku 1 jam, undangan berlaku 7 hari.
+        Salinan backup dapat tetap ada sampai rotasi backup pengelola selesai.
+      </p>
+      <p>
+        Owner dapat mengekspor kontak, persetujuan, opt-out, campaign dan hasil
+        pengiriman, serta menghapus data operasional di Pengaturan. Memutuskan
+        WhatsApp menghapus kredensial dari database aktif. Untuk akses, koreksi,
+        penutupan akun, penghapusan data lain, atau pertanyaan tentang backup,
+        hubungi kontak di atas. Pengirim bertanggung jawab menangani permintaan
+        privasi penerima pesan mereka.
+      </p>
+      <div class="doc-links">
+        <a href="/terms.html">Baca ketentuan layanan</a>
+        <a href="/app">Masuk ke dashboard</a>
+        <a data-support href="/app">Bantuan</a>
+      </div>
+    </main>
   </body>
 </html>

@@ -151,7 +151,7 @@ let stopping = false;
 const server = app.listen(
   Number(process.env.PORT || 3000),
   process.env.HOST || "127.0.0.1",
-  () => console.log(`wablasting ready on ${server.address().port}`),
+  () => console.log(`WABlast ready on ${server.address().port}`),
 );
 // Restore linked sessions; campaign recovery never retries ambiguous sends.
 for (const w of db
