@@ -5,7 +5,7 @@ import { db, transaction } from "./store.js";
 import { plans, config } from "./config.js";
 import { ensure } from "./errors.js";
 import { text, phone } from "./validation.js";
-import { verified, email, hash, checkPassword } from "./auth.js";
+import { verified, email, hash, checkPassword, rateLimit } from "./auth.js";
 import {
   overview,
   workspace,
@@ -15,7 +15,8 @@ import {
   newInvoice,
   settleInvoice,
 } from "./saas.js";
-import { queueMail } from "./mail.js";
+import { queueMail, sendTestMail } from "./mail.js";
+import { settingsView, saveSettings, readiness } from "./settings.js";
 import * as wa from "./whatsapp.js";
 export function scope(req, res, next) {
   const id = req.get("X-Workspace-Id") || req.user.id;
@@ -423,6 +424,11 @@ routes.get("/billing", (req, res) =>
   }),
 );
 routes.post("/billing/invoices", owner, verified, (req, res) => {
+  ensure(
+    !config.production || (readiness().identity && readiness().payment),
+    503,
+    "Pembayaran belum dibuka. Pengelola perlu melengkapi identitas bisnis dan rekening.",
+  );
   const invoice = newInvoice(req.workspace, req.body.plan);
   audit(req.workspace.id, req.user.id, "invoice.created", { id: invoice.id });
   res.status(201).json(invoice);
@@ -664,6 +670,47 @@ admin.use((req, res, next) => {
   ensure(req.user.superAdmin, 403, "Akses admin platform diperlukan");
   next();
 });
+admin.get("/settings", (req, res) => res.json(settingsView()));
+admin.put("/settings", async (req, res) => {
+  const user = db
+    .prepare("SELECT password FROM users WHERE id=?")
+    .get(req.user.id);
+  ensure(
+    await checkPassword(req.body.currentPassword, user.password),
+    403,
+    "Password akun admin salah",
+  );
+  const view = saveSettings(req.body);
+  audit(req.user.id, req.user.id, "platform.settings_updated", {
+    smtpConfigured: view.readiness.smtp,
+  });
+  res.json(view);
+});
+admin.post(
+  "/settings/test-email",
+  rateLimit(5, 3600000, "smtp-test"),
+  async (req, res) => {
+    const user = db
+      .prepare("SELECT password FROM users WHERE id=?")
+      .get(req.user.id);
+    ensure(
+      await checkPassword(req.body.currentPassword, user.password),
+      403,
+      "Password akun admin salah",
+    );
+    try {
+      await sendTestMail(req.user.email);
+    } catch {
+      ensure(
+        false,
+        503,
+        "Email tes gagal. Periksa host, port, username, password SMTP dan email pengirim.",
+      );
+    }
+    audit(req.user.id, req.user.id, "platform.email_tested");
+    res.json({ ok: true, to: req.user.email });
+  },
+);
 admin.get("/overview", (req, res) =>
   res.json({
     workspaces: db

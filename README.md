@@ -1,6 +1,6 @@
 # wablasting — SaaS workspace
 
-Aplikasi SaaS WhatsApp berbasis **Baileys**, dengan landing page, dashboard pelanggan, paket, langganan transfer manual, tim, dan admin platform. v0.2.0 menargetkan **penjualan pilot satu server**. Deployment website, SMTP, rekening pembayaran, dan pengujian WhatsApp nyata harus dikonfigurasi oleh operator sebelum menerima pelanggan.
+Aplikasi SaaS WhatsApp berbasis **Baileys**, dengan landing page, dashboard pelanggan, paket, langganan transfer manual, tim, dan admin platform. v0.3.0 menargetkan **penjualan pilot satu server**. Deployment website, SMTP, rekening pembayaran, dan pengujian WhatsApp nyata harus dikonfigurasi oleh operator sebelum menerima pelanggan.
 
 ## Yang sudah tersedia
 
@@ -16,11 +16,23 @@ Aplikasi SaaS WhatsApp berbasis **Baileys**, dengan landing page, dashboard pela
 
 **Billing saat ini transfer manual.** Tidak ada payment gateway atau auto-debit yang berpura-pura aktif. Pelanggan tidak bisa mengaktifkan paketnya sendiri. Renewal hanya setelah periode berbayar berakhir; sisa kuota tidak dibawa. Aktivasi periode baru membatalkan campaign tertunda dari periode lama.
 
-## Setup Ubuntu tanpa nano
+## Setup awal lewat browser
 
-Dari folder repository, jalankan `bash scripts/setup.sh`. Installer memeriksa Docker/Compose, menanyakan identitas bisnis, domain, email, SMTP dan rekening, lalu menyimpan `.env` secara atomik dengan permission 0600. File sebelumnya dibackup lokal dan tidak masuk Git. Kunci enkripsi yang valid dipertahankan; volume/database tidak dihapus. Detail login SMTP dibaca tanpa menampilkan password dan di-URL-encode otomatis.
+Dari folder repository, jalankan `bash scripts/setup.sh`. Installer hanya menyiapkan dependensi dan konfigurasi teknis; tidak menanyakan identitas bisnis, email, SMTP, atau rekening. `.env` ditulis secara atomik dengan permission 0600, konfigurasi lama dibackup, kunci enkripsi dipertahankan, dan volume tidak dihapus.
 
-Installer tidak mengubah DNS, sertifikat TLS, reverse proxy atau website lain. Default domain wizard adalah `https://whapi.avicennarabama.com`. Detail SMTP asli tetap diperlukan. Jika database/volume lama ada tetapi kunci enkripsi hilang, pulihkan kunci dari backup sebelum melanjutkan.
+Di akhir instalasi muncul **tautan setup pribadi**, berlaku 24 jam. Buka tautan itu melalui browser untuk membuat akun admin. SMTP belum diperlukan. Setelah masuk, pilih **Pengaturan platform** untuk mengisi brand, identitas bisnis, email bantuan, SMTP, rekening pembayaran, harga paket dan pilihan registrasi publik. Semua boleh diselesaikan bertahap; perubahan langsung berlaku tanpa restart. Password SMTP tersimpan terenkripsi dan tidak dikirim kembali ke browser.
+
+Jika perlu menampilkan kembali tautan setup, jalankan:
+
+```sh
+sudo docker compose exec -T app node scripts/setup-link.js
+```
+
+Tautan memakai kunci acak yang hanya tersedia dari server. Pengunjung umum tidak dapat mengklaim admin. Setelah admin ada, setup awal ditutup; akun admin dari instalasi lama tetap berlaku. Jika memilih email akun yang sudah ada saat setup, password akun tersebut harus cocok.
+
+Registrasi pelanggan produksi ditahan sampai pengelola menyelesaikan setup admin dan melengkapi identitas, SMTP/email pengirim, serta instruksi pembayaran. Admin tetap dapat masuk dan mengatur aplikasi tanpa SMTP. Invoice baru tidak dapat dibuat sebelum identitas dan instruksi pembayaran lengkap.
+
+Installer tidak mengubah DNS, SSL, reverse proxy atau website lain. Default domain: `https://whapi.avicennarabama.com`. Jika volume lama ada tetapi kunci enkripsi hilang, pulihkan kunci dari backup sebelum melanjutkan.
 
 ## Mulai lokal — Node.js 24
 
@@ -36,13 +48,15 @@ Salin `.env.example` ke `.env`: PowerShell `Copy-Item .env.example .env`; macOS/
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Isi `SESSION_ENCRYPTION_KEY` dengan hasilnya. Isi `ADMIN_EMAILS` dengan email akun pengelola. Harga default hanya contoh: atur `PRICE_STARTER`, `PRICE_GROWTH`, `PRICE_BUSINESS` sebelum menjual.
+Isi `SESSION_ENCRYPTION_KEY` dengan hasilnya. `ADMIN_EMAILS` bersifat opsional untuk kompatibilitas instalasi lama. Harga default hanya contoh; ubah melalui Pengaturan platform sebelum menjual.
 
 ```sh
 npm start
 ```
 
-Buka http://127.0.0.1:3000 untuk landing page, `/app` untuk dashboard. Daftar dan setujui ketentuan. Jika SMTP belum dikonfigurasi di lokal, lihat email verifikasi di terminal terpisah:
+Buka http://127.0.0.1:3000 untuk landing page. Untuk admin pertama, jalankan `node --env-file-if-exists=.env scripts/setup-link.js`, lalu buka tautan setup pribadi yang muncul. Buat akun di browser dan lanjutkan ke Pengaturan platform.
+
+Untuk pengujian akun pelanggan lokal tanpa SMTP, email verifikasi dapat dilihat melalui:
 
 ```sh
 npm run mail:local
@@ -68,7 +82,7 @@ Semua paket memiliki 1 nomor WhatsApp/workspace. Trial dimulai saat registrasi, 
 Gunakan **subdomain khusus** seperti `wa.domainmu.com`, dengan reverse proxy HTTPS ke aplikasi. Instalasi di subpath seperti `/wa` belum didukung. Tidak perlu mengubah website utama.
 
 1. Clone repo di server, buat `.env`, isi kunci dan konfigurasi produksi.
-2. Set `NODE_ENV=production`, `APP_URL=https://wa.domainmu.com`, `COOKIE_SECURE=true`, `ADMIN_EMAILS`, `SMTP_URL`, `MAIL_FROM`, `BUSINESS_NAME`, `SUPPORT_EMAIL`, dan `PAYMENT_INSTRUCTIONS`. Server menolak boot production jika salah satu belum tersedia.
+2. Konfigurasi teknis minimum: `SESSION_ENCRYPTION_KEY`, `NODE_ENV=production`, `APP_URL=https://wa.domainmu.com`, dan `COOKIE_SECURE=true`. Detail bisnis, SMTP dan rekening dapat diisi belakangan melalui panel. Installer mengisi nilai teknis ini otomatis.
 3. Set `TRUST_PROXY` hanya ke IP/CIDR reverse proxy yang benar; proxy harus menimpa X-Forwarded-For. Jangan memakai `true` atau daftar proxy publik.
 4. Atur DNS, HTTPS, dan reverse proxy hosting panel ke `127.0.0.1:3000`; contoh Nginx ada di `deploy/nginx.conf`.
 
@@ -78,7 +92,7 @@ docker compose exec app node scripts/preflight.js
 docker compose logs --tail=100 app
 ```
 
-Image berjalan non-root, port hanya dibuka di loopback host, dan database tersimpan di volume `app-data`. SMTP produksi memerlukan TLS; URI-encode karakter khusus pada username/password URL SMTP. Healthcheck database tersedia di `/health/ready`; ini bukan bukti bahwa WhatsApp dan SMTP bisa diakses. `preflight` menguji koneksi SMTP dan integritas database.
+Image berjalan non-root, port hanya dibuka di loopback host, dan database tersimpan di volume `app-data`. SMTP produksi memerlukan TLS; URI-encode karakter khusus pada username/password URL SMTP. Healthcheck database tersedia di `/health/ready`; ini bukan bukti bahwa WhatsApp dan SMTP bisa diakses. `preflight` memeriksa integritas database dan status konfigurasi tanpa mewajibkan SMTP. Gunakan `node scripts/preflight.js --smtp` untuk menguji koneksi SMTP, atau tombol **Kirim email tes ke akun saya** di panel untuk menguji pengiriman. SMTP tidak aktif tidak menghalangi boot aplikasi.
 
 **Jalankan satu instance/replica.** SQLite + worker lokal sengaja dibatasi untuk deployment satu server; process lock menolak worker kedua pada folder data yang sama. Jangan menggunakan PM2 cluster atau beberapa replica. Kapasitas tenant perlu diukur dengan load test pada VPS target sebelum menetapkan batas penjualan. Horizontal scaling memerlukan Postgres/queue terdistribusi dan ownership sesi per worker.
 

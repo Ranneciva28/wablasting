@@ -70,6 +70,9 @@ const migrations = [
    CREATE INDEX mail_pending ON mail(status,next_attempt);
   `,
   `ALTER TABLE campaigns ADD COLUMN request_hash TEXT;`,
+  `CREATE TABLE platform_settings(id INTEGER PRIMARY KEY CHECK(id=1),payload TEXT NOT NULL);
+   CREATE TABLE platform_admins(user TEXT PRIMARY KEY REFERENCES users(id));
+   CREATE TABLE bootstrap(id INTEGER PRIMARY KEY CHECK(id=1),hash TEXT NOT NULL,expires INTEGER NOT NULL);`,
 ];
 db.exec(
   "CREATE TABLE IF NOT EXISTS schema_migrations(version INTEGER PRIMARY KEY,applied INTEGER NOT NULL)",

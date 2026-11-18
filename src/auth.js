@@ -13,6 +13,7 @@ import { text } from "./validation.js";
 import { ensure } from "./errors.js";
 import { createWorkspace, audit, isSuperAdmin } from "./saas.js";
 import { queueMail } from "./mail.js";
+import { canRegister } from "./settings.js";
 const derive = promisify(scrypt);
 export const hash = (value) => createHash("sha256").update(value).digest("hex");
 export const cookie = (token, age) =>
@@ -41,7 +42,7 @@ export async function checkPassword(value, stored) {
   const actual = await derive(password(value), salt, 64);
   return timingSafeEqual(actual, Buffer.from(expected, "hex"));
 }
-function newSession(res, user) {
+export function newSession(res, user) {
   const raw = randomBytes(32).toString("hex");
   db.prepare("INSERT INTO sessions VALUES(?,?,?)").run(
     hash(raw),
@@ -98,6 +99,11 @@ export function rateLimit(limit, windowMs = 900000, prefix = "api") {
 export const auth = Router();
 auth.use(rateLimit(30, 900000, "auth"));
 auth.post("/register", async (req, res) => {
+  ensure(
+    !config.production || canRegister(),
+    503,
+    "Pendaftaran belum dibuka. Pengelola perlu melengkapi pengaturan layanan.",
+  );
   const address = email(req.body.email),
     name = text(req.body.company || address.split("@")[0], 100, "Nama bisnis");
   ensure(

@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { once } from "node:events";
 import { DatabaseSync } from "node:sqlite";
 import { createDecipheriv } from "node:crypto";
-export async function server() {
+export async function server(extraEnv = {}) {
   const dir = await mkdtemp(join(tmpdir(), "wablasting-api-"));
   const key = "ab".repeat(32);
   const child = spawn(process.execPath, ["src/server.js"], {
@@ -20,6 +20,7 @@ export async function server() {
       ADMIN_EMAILS: "super@example.com",
       SMTP_URL: "",
       APP_URL: "http://127.0.0.1:3000",
+      ...extraEnv,
     },
     stdio: ["ignore", "pipe", "pipe"],
   });

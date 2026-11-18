@@ -79,6 +79,7 @@ if [ "$ready" -ne 1 ]; then
 fi
 
 elevated docker compose exec -T app node scripts/preflight.js
-printf '\nAplikasi dan koneksi SMTP berhasil diperiksa.\n'
+printf '\nAplikasi siap. Pengaturan layanan dilanjutkan lewat browser.\n'
+elevated docker compose exec -T app node scripts/setup-link.js
 printf 'Reverse proxy HTTPS subdomain diarahkan ke http://127.0.0.1:3000.\n'
 printf 'DNS, SSL dan konfigurasi web server tidak diubah oleh installer.\n'

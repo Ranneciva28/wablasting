@@ -66,6 +66,21 @@ class SetupEnvTests(unittest.TestCase):
             finally:
                 os.chdir(original)
 
+    def test_minimal_setup_does_not_ask_for_business_smtp_or_bank(self):
+        original = Path.cwd()
+        with tempfile.TemporaryDirectory() as folder:
+            try:
+                os.chdir(folder)
+                Path('.env.example').write_text('PUBLIC_SIGNUP=true\n')
+                with patch('builtins.input', side_effect=AssertionError('CLI prompt should not run')), patch.dict(os.environ, {'WABLASTING_EXISTING_VOLUME': '0'}), contextlib.redirect_stdout(io.StringIO()):
+                    setup.minimal()
+                config = setup.read_env(Path('.env'))
+                self.assertEqual(config['APP_URL'], 'https://whapi.avicennarabama.com')
+                self.assertEqual(len(config['SESSION_ENCRYPTION_KEY']), 64)
+                self.assertNotIn('SMTP_URL', config)
+            finally:
+                os.chdir(original)
+
 
 if __name__ == '__main__':
     unittest.main()

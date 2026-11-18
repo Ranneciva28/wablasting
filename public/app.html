@@ -21,7 +21,8 @@
         ><a href="#billing">Langganan</a
         ><a href="#audit" data-management>Aktivitas</a
         ><a href="#settings">Pengaturan</a
-        ><a href="#admin" id="admin-nav" hidden>Admin platform</a>
+        ><a href="#admin" id="admin-nav" hidden>Admin platform</a
+        ><a href="#platform" id="platform-nav" hidden>Pengaturan platform</a>
       </nav>
       <small
         >Unofficial WhatsApp client<br /><a href="/terms.html">Ketentuan</a> ·
@@ -422,6 +423,148 @@
               </form>
             </details>
           </section>
+        </div>
+        <div data-panel="platform" hidden>
+          <section>
+            <p class="eyebrow">SETUP LAYANAN</p>
+            <h2>Atur semuanya dari panel.</h2>
+            <p>
+              Pengaturan tersimpan terenkripsi dan langsung berlaku. SMTP dan
+              rekening boleh diisi nanti. Registrasi pelanggan baru dibuka
+              setelah identitas, email pengirim/SMTP, dan rekening lengkap.
+            </p>
+            <p id="platform-readiness" class="badge"></p>
+          </section>
+          <form id="platform-form">
+            <section>
+              <h2>Identitas bisnis</h2>
+              <label
+                >Nama brand<input
+                  name="brand"
+                  required
+                  maxlength="100" /></label
+              ><label
+                >Nama bisnis/pengelola<input
+                  name="businessName"
+                  maxlength="200" /></label
+              ><label
+                >Email bantuan pelanggan<input
+                  name="supportEmail"
+                  type="email"
+                  maxlength="200" /></label
+              ><label class="check"
+                ><input name="publicSignup" type="checkbox" /> Buka registrasi
+                publik setelah pengaturan lengkap</label
+              >
+            </section>
+            <section>
+              <h2>Email SMTP</h2>
+              <p>
+                Password disimpan terenkripsi dan tidak ditampilkan kembali.
+                Kosongkan password untuk mempertahankan password SMTP yang
+                tersimpan. Gmail memakai username alamat email lengkap dan App
+                Password dari akun tersebut.
+              </p>
+              <label class="check"
+                ><input name="smtpEnabled" type="checkbox" /> Aktifkan
+                pengiriman email</label
+              >
+              <div class="columns">
+                <label
+                  >Host SMTP<input
+                    name="smtpHost"
+                    placeholder="smtp.gmail.com"
+                    maxlength="253" /></label
+                ><label
+                  >Port<input
+                    name="smtpPort"
+                    type="number"
+                    min="1"
+                    max="65535"
+                    value="587"
+                /></label>
+              </div>
+              <label
+                >Username SMTP<input
+                  name="smtpUsername"
+                  autocomplete="off"
+                  maxlength="300" /></label
+              ><label
+                >Password SMTP / App Password<input
+                  name="smtpPassword"
+                  type="password"
+                  autocomplete="new-password"
+                  maxlength="1000" /></label
+              ><label class="check"
+                ><input name="smtpSecure" type="checkbox" /> TLS langsung
+                (biasanya port 465); jika tidak dicentang, gunakan STARTTLS
+                (biasanya 587)</label
+              ><label
+                >Email pengirim<input
+                  name="mailFrom"
+                  placeholder="nama@domain.com"
+                  maxlength="300"
+              /></label>
+            </section>
+            <section>
+              <h2>Pembayaran dan harga</h2>
+              <label
+                >Instruksi transfer<textarea
+                  name="paymentInstructions"
+                  rows="4"
+                  maxlength="2000"
+                  placeholder="Bank, nomor rekening, nama penerima, dan cara konfirmasi"
+                ></textarea>
+              </label>
+              <p>
+                Harga berlaku untuk invoice baru. Invoice yang sudah dibuat
+                tetap memakai nominal sebelumnya.
+              </p>
+              <div class="columns">
+                <label
+                  >Starter / 30 hari (Rp)<input
+                    name="priceStarter"
+                    type="number"
+                    min="1000"
+                    max="1000000000"
+                    required /></label
+                ><label
+                  >Growth / 30 hari (Rp)<input
+                    name="priceGrowth"
+                    type="number"
+                    min="1000"
+                    max="1000000000"
+                    required /></label
+                ><label
+                  >Business / 30 hari (Rp)<input
+                    name="priceBusiness"
+                    type="number"
+                    min="1000"
+                    max="1000000000"
+                    required
+                /></label>
+              </div>
+            </section>
+            <section>
+              <h2>Simpan dengan aman</h2>
+              <label
+                >Password akun admin saat ini<input
+                  name="currentPassword"
+                  type="password"
+                  autocomplete="current-password"
+                  required
+                  minlength="12"
+                  maxlength="128"
+              /></label>
+              <div class="actions">
+                <button class="primary">Simpan pengaturan</button
+                ><button type="button" id="platform-test-email">
+                  Kirim email tes ke akun saya
+                </button>
+              </div>
+              <p>Email tes memakai konfigurasi terakhir yang sudah disimpan.</p>
+            </section>
+          </form>
         </div>
         <div data-panel="admin" hidden>
           <div class="stats" id="admin-stats"></div>

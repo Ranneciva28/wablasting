@@ -8,7 +8,11 @@ export function audit(workspace, actor, action, detail = {}) {
   ).run(workspace, actor, action, JSON.stringify(detail), Date.now());
 }
 export function isSuperAdmin(user) {
-  return Boolean(user.verified && config.adminEmails.includes(user.email));
+  return Boolean(
+    user.verified &&
+    (config.adminEmails.includes(user.email) ||
+      db.prepare("SELECT user FROM platform_admins WHERE user=?").get(user.id)),
+  );
 }
 export function workspace(id) {
   return db.prepare("SELECT * FROM workspaces WHERE id=?").get(id);

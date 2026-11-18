@@ -222,6 +222,7 @@ async function session() {
     select.append(option);
   }
   $("#admin-nav").hidden = !me.superAdmin;
+  $("#platform-nav").hidden = !me.superAdmin;
   $("#identity").textContent = me.email;
   $("#verify-banner").hidden = Boolean(me.verified);
   const invite = sessionStorage.getItem("pendingInvite");
@@ -291,11 +292,13 @@ const titles = {
   audit: "Setiap perubahan tercatat.",
   settings: "Atur workspace kamu.",
   admin: "Kendali platform.",
+  platform: "Pengaturan layanan.",
 };
 async function navigate() {
   const target = location.hash.slice(1);
   panel = titles[target] ? target : "overview";
-  if (panel === "admin" && !me?.superAdmin) panel = "overview";
+  if (["admin", "platform"].includes(panel) && !me?.superAdmin)
+    panel = "overview";
   if (["team", "audit"].includes(panel) && w?.role === "operator")
     panel = "overview";
   $$("[data-panel]").forEach((n) => (n.hidden = n.dataset.panel !== panel));
@@ -320,6 +323,7 @@ async function navigate() {
     billing,
     audit: loadAudit,
     admin: loadAdmin,
+    platform: loadPlatform,
   };
   if (loaders[panel]) await loaders[panel]();
 }
@@ -889,6 +893,75 @@ setInterval(() => {
     }
   });
 }, 6000);
+async function loadPlatform() {
+  const data = await api("/admin/settings"),
+    f = $("#platform-form");
+  for (const key of [
+    "brand",
+    "businessName",
+    "supportEmail",
+    "paymentInstructions",
+    "mailFrom",
+  ])
+    f.elements[key].value = data[key] || "";
+  f.elements.publicSignup.checked = data.publicSignup;
+  f.elements.smtpEnabled.checked = data.smtp.enabled;
+  f.elements.smtpHost.value = data.smtp.host;
+  f.elements.smtpPort.value = data.smtp.port;
+  f.elements.smtpUsername.value = data.smtp.username;
+  f.elements.smtpSecure.checked = data.smtp.secure;
+  f.elements.smtpPassword.value = "";
+  f.elements.smtpPassword.placeholder = data.smtp.hasPassword
+    ? "Sudah tersimpan — kosongkan untuk mempertahankan"
+    : "";
+  f.elements.priceStarter.value = data.prices.starter;
+  f.elements.priceGrowth.value = data.prices.growth;
+  f.elements.priceBusiness.value = data.prices.business;
+  $("#platform-readiness").textContent =
+    `Identitas: ${data.readiness.identity ? "lengkap" : "belum lengkap"} · SMTP: ${data.readiness.smtp ? "terkonfigurasi" : "isi nanti"} · Pembayaran: ${data.readiness.payment ? "lengkap" : "isi nanti"} · Registrasi: ${data.registrationAvailable ? "terbuka" : "ditahan"}`;
+}
+form("#platform-form", async (d) => {
+  await api("/admin/settings", {
+    method: "PUT",
+    body: {
+      brand: d.brand,
+      businessName: d.businessName,
+      supportEmail: d.supportEmail,
+      paymentInstructions: d.paymentInstructions,
+      mailFrom: d.mailFrom,
+      publicSignup: d.publicSignup === "on",
+      smtp: {
+        enabled: d.smtpEnabled === "on",
+        host: d.smtpHost,
+        port: Number(d.smtpPort),
+        username: d.smtpUsername,
+        password: d.smtpPassword,
+        secure: d.smtpSecure === "on",
+      },
+      prices: {
+        starter: Number(d.priceStarter),
+        growth: Number(d.priceGrowth),
+        business: Number(d.priceBusiness),
+      },
+      currentPassword: d.currentPassword,
+    },
+  });
+  $("#platform-form [name=currentPassword]").value = "";
+  publicConfig = await api("/public");
+  $$("[data-brand]").forEach((n) => (n.textContent = publicConfig.brand));
+  await loadPlatform();
+  notify("Pengaturan tersimpan. Tidak perlu restart aplikasi.");
+});
+$("#platform-test-email").onclick = () =>
+  run(async () => {
+    const currentPassword = $("#platform-form [name=currentPassword]").value;
+    if (!currentPassword)
+      throw Error("Isi password akun admin untuk mengirim email tes.");
+    const result = await api("/admin/settings/test-email", {
+      body: { currentPassword },
+    });
+    notify(`Email tes terkirim ke ${result.to}. Periksa inbox atau spam.`);
+  });
 async function init() {
   publicConfig = await api("/public");
   $$("[data-brand]").forEach((n) => (n.textContent = publicConfig.brand));
@@ -922,5 +995,9 @@ async function init() {
   }
   authMode();
   await session();
+  if (publicConfig.setupRequired && !me)
+    notify(
+      "Setup pengelola belum selesai. Buka tautan setup pribadi dari hasil instalasi server.",
+    );
 }
 run(init);

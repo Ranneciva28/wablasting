@@ -3,8 +3,8 @@
 ## Sebelum menerima pelanggan
 
 - Tentukan brand, subdomain, identitas bisnis, support email, rekening penerima, dan harga yang akan ditampilkan.
-- Isi konfigurasi production. Kirim email verifikasi/reset melalui SMTP asli; uji tautan dari domain publik. Perintah preflight menguji SMTP, bukan penerimaan di inbox tujuan.
-- Daftar akun pemilik dengan email dalam `ADMIN_EMAILS`, verifikasi email, lalu periksa menu Admin platform.
+- Isi konfigurasi production. Kirim email verifikasi/reset melalui SMTP asli; uji tautan dari domain publik. Gunakan tombol email tes di Pengaturan platform; `preflight --smtp` hanya menguji koneksi SMTP, bukan penerimaan di inbox.
+- Buat akun admin pertama dari tautan setup pribadi hasil installer. SMTP tidak diperlukan untuk langkah ini. Buka Pengaturan platform untuk melengkapi email dan pembayaran; akun lama dari `ADMIN_EMAILS` tetap didukung.
 - Uji dari HP: scan QR → kirim satu pesan ke nomor uji yang menyetujui → periksa isi/penerima → balas STOP → pastikan pesan berikutnya ditahan. Uji logout/reconnect dan restart server.
 - Uji invoice dari akun pelanggan terpisah. Pastikan konfirmasi transfer belum mengaktifkan paket, lalu verifikasi saldo masuk dan setujui dari admin.
 - Tetapkan jadwal backup, masa retensi, prosedur refund, dan kontak dukungan. Lakukan restore rehearsal dari salinan backup.
@@ -22,16 +22,16 @@
 
 ## Incident response
 
-| Gejala                     | Pemeriksaan / tindakan                                                                                                                                                     |
-| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Tidak mendapat email       | Admin: lihat jumlah pending/failed. Periksa SMTP dan jalankan preflight. Minta pengguna cek spam dan kirim ulang verifikasi. Token lama invalid setelah token baru dibuat. |
-| QR tidak muncul            | Periksa konektivitas VPS ke WhatsApp, status paket, verifikasi email. Putuskan sesi lalu hubungkan kembali jika diperlukan.                                                |
-| Pengiriman `unknown`       | Periksa WhatsApp HP sebelum mengirim lagi. Aplikasi tidak otomatis retry. Timeout 45 detik tidak dapat membuktikan pesan belum terkirim.                                   |
-| Campaign tertahan          | Periksa status koneksi, jadwal, active period, suspend, kontak/opt-out, dan role pengguna.                                                                                 |
-| Pembayaran tidak aktif     | Periksa invoice, masa berlaku, referensi, saldo masuk, dan keputusan admin. Invoice expired tidak bisa disetujui. Hubungi pelanggan untuk rekonsiliasi.                    |
-| Penyalahgunaan             | Suspend workspace dari Admin. Antrean dijeda dan sesi WhatsApp diputus. Satu pengiriman in-flight mungkin sudah berjalan.                                                  |
-| Kunci hilang / tidak cocok | Pulihkan kunci yang dipakai saat backup dibuat. Tidak ada bypass dekripsi sesi.                                                                                            |
-| `server.lock` tertinggal   | Pastikan proses lama benar-benar mati. Server membersihkan lock PID yang tidak hidup. Jika PID sudah dipakai proses lain, investigasi sebelum menghapus lock manual.       |
+| Gejala                     | Pemeriksaan / tindakan                                                                                                                                                           |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Tidak mendapat email       | Admin: lihat jumlah pending/failed. Periksa SMTP di panel dan kirim email tes. Minta pengguna cek spam dan kirim ulang verifikasi. Token lama invalid setelah token baru dibuat. |
+| QR tidak muncul            | Periksa konektivitas VPS ke WhatsApp, status paket, verifikasi email. Putuskan sesi lalu hubungkan kembali jika diperlukan.                                                      |
+| Pengiriman `unknown`       | Periksa WhatsApp HP sebelum mengirim lagi. Aplikasi tidak otomatis retry. Timeout 45 detik tidak dapat membuktikan pesan belum terkirim.                                         |
+| Campaign tertahan          | Periksa status koneksi, jadwal, active period, suspend, kontak/opt-out, dan role pengguna.                                                                                       |
+| Pembayaran tidak aktif     | Periksa invoice, masa berlaku, referensi, saldo masuk, dan keputusan admin. Invoice expired tidak bisa disetujui. Hubungi pelanggan untuk rekonsiliasi.                          |
+| Penyalahgunaan             | Suspend workspace dari Admin. Antrean dijeda dan sesi WhatsApp diputus. Satu pengiriman in-flight mungkin sudah berjalan.                                                        |
+| Kunci hilang / tidak cocok | Pulihkan kunci yang dipakai saat backup dibuat. Tidak ada bypass dekripsi sesi.                                                                                                  |
+| `server.lock` tertinggal   | Pastikan proses lama benar-benar mati. Server membersihkan lock PID yang tidak hidup. Jika PID sudah dipakai proses lain, investigasi sebelum menghapus lock manual.             |
 
 ## Backup dan restore
 

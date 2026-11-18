@@ -34,7 +34,7 @@ test("legacy v0.1 database migrates idempotently without dropping contacts or ca
     try {
       assert.equal(
         db.prepare("SELECT COUNT(*) n FROM schema_migrations").get().n,
-        2,
+        3,
       );
       assert.equal(
         db.prepare("SELECT id FROM workspaces WHERE id='legacy'").get().id,

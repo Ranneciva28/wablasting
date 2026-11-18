@@ -65,21 +65,9 @@ if (appUrl.origin !== config.url)
   throw Error(
     "APP_URL must be an origin without a path, query, or credentials",
   );
-if (config.production) {
-  if (
-    !config.url.startsWith("https://") ||
-    !config.secure ||
-    !config.smtp ||
-    !config.mailFrom ||
-    !config.adminEmails.length ||
-    !config.paymentInstructions ||
-    !config.supportEmail ||
-    !config.businessName
-  ) {
-    throw Error(
-      "Production requires HTTPS APP_URL, COOKIE_SECURE=true, SMTP_URL, MAIL_FROM, ADMIN_EMAILS, PAYMENT_INSTRUCTIONS, SUPPORT_EMAIL and BUSINESS_NAME",
-    );
-  }
-  if (!["smtp:", "smtps:"].includes(new URL(config.smtp).protocol))
-    throw Error("Invalid SMTP_URL");
+if (
+  config.production &&
+  (!config.url.startsWith("https://") || !config.secure)
+) {
+  throw Error("Production requires HTTPS APP_URL and COOKIE_SECURE=true");
 }

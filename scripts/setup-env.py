@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Interactive deployment configuration, with no editor and no shell evaluation."""
+"""Technical bootstrap configuration; business and SMTP setup are handled in the browser."""
 import datetime
 import getpass
 import os
 from pathlib import Path
 import re
 import secrets
-import shutil
 import sys
 import tempfile
 from urllib.parse import quote, urlsplit
@@ -121,12 +120,35 @@ def main():
     print('\n.env berhasil disimpan otomatis. Rahasia tidak ditampilkan.')
 
 
+def minimal():
+    path = Path('.env')
+    previous = read_env(path)
+    values = read_env(Path('.env.example'))
+    values.update(previous)
+    key = previous.get('SESSION_ENCRYPTION_KEY', '')
+    if key and not re.fullmatch(r'[a-fA-F0-9]{64}', key):
+        raise ValueError('Kunci enkripsi lama tidak valid. Pulihkan kunci dari backup.')
+    if not key and (Path('data/app.sqlite').exists() or os.environ.get('WABLASTING_EXISTING_VOLUME') == '1'):
+        raise ValueError('Database/volume lama ada tetapi kunci hilang. Pulihkan SESSION_ENCRYPTION_KEY dari backup; database tidak dihapus.')
+    domain = os.environ.get('WABLASTING_DOMAIN') or previous.get('APP_URL') or 'https://whapi.avicennarabama.com'
+    if not domain.startswith(('http://', 'https://')):
+        domain = 'https://' + domain
+    if not valid_url(domain):
+        raise ValueError('URL produksi harus HTTPS dan tanpa path.')
+    values.update(APP_URL=domain.rstrip('/'), NODE_ENV='production', COOKIE_SECURE='true', HOST='127.0.0.1', PORT='3000', SESSION_ENCRYPTION_KEY=key or secrets.token_hex(32))
+    write_env(path, values)
+    print('Konfigurasi teknis tersimpan. Buat akun admin dan atur layanan melalui browser.')
+
+
 if __name__ == '__main__':
     # A pasted heredoc uses stdin for script text; all prompts read the terminal.
     try:
-        with open('/dev/tty') as terminal:
-            sys.stdin = terminal
-            main()
+        if '--interactive' in sys.argv:
+            with open('/dev/tty') as terminal:
+                sys.stdin = terminal
+                main()
+        else:
+            minimal()
     except (ValueError, OSError, KeyboardInterrupt) as error:
         print(f'\nSetup berhenti: {error}', file=sys.stderr)
         sys.exit(1)

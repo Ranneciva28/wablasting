@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Setup awal — wablasting</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script defer src="/setup.js"></script>
+  </head>
+  <body class="legal">
+    <a href="/">wablasting</a>
+    <h1>Mulai dari panel.</h1>
+    <p>
+      Buat akun pengelola terlebih dahulu. SMTP, rekening, identitas bisnis dan
+      harga paket bisa diisi nanti di Pengaturan platform.
+    </p>
+    <section>
+      <p id="setup-notice" role="status"></p>
+      <form id="setup-form">
+        <label
+          >Email admin<input
+            name="email"
+            type="email"
+            autocomplete="username"
+            required /></label
+        ><label
+          >Password admin<input
+            name="password"
+            type="password"
+            minlength="12"
+            maxlength="128"
+            autocomplete="new-password"
+            required /></label
+        ><label
+          >Ulangi password<input
+            name="confirm"
+            type="password"
+            minlength="12"
+            maxlength="128"
+            autocomplete="new-password"
+            required /></label
+        ><button class="primary">Buat akun & buka panel</button>
+      </form>
+      <p id="setup-help" class="muted" hidden>
+        Gunakan tautan setup pribadi dari hasil instalasi server. Halaman ini
+        tidak mengizinkan pengunjung umum mengambil alih admin.
+      </p>
+    </section>
+  </body>
+</html>

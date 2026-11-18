@@ -17,7 +17,7 @@ test("customer dashboard interactions and configured pricing render in DOM", asy
   };
   try {
     const jar = new CookieJar();
-    const user = await s.register("dom@example.com");
+    const user = await s.register("super@example.com");
     jar.setCookieSync(user.cookie + "; Path=/", s.base);
     const vc = new VirtualConsole();
     vc.on("jsdomError", (e) => errors.push(e.message));
@@ -73,6 +73,22 @@ test("customer dashboard interactions and configured pricing render in DOM", asy
     assert.match($("#template-list").textContent, /Greeting/);
     await hash("billing");
     await wait(() => $("#billing-plans").children.length === 3);
+    await hash("platform");
+    await wait(() => $("#platform-form [name=priceStarter]").value === "99000");
+    $("#platform-form [name=brand]").value = "Sena WhatsApp Blast";
+    $("#platform-form [name=businessName]").value = "Sena";
+    $("#platform-form [name=supportEmail]").value = "support@example.com";
+    $("#platform-form [name=currentPassword]").value = "long-password-123";
+    $("#platform-form").requestSubmit($("#platform-form button"));
+    await wait(
+      () =>
+        $("#notice").textContent ===
+        "Pengaturan tersimpan. Tidak perlu restart aplikasi.",
+    );
+    assert.equal(
+      (await s.request("/api/public")).data.brand,
+      "Sena WhatsApp Blast",
+    );
     assert.deepEqual(errors, []);
     dom.window.close();
     dom = null;

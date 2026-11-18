@@ -1,3 +1,4 @@
+import "../src/settings.js";
 import { config } from "../src/config.js";
 import { db, decrypt } from "../src/store.js";
 if (config.production || config.smtp)

@@ -54,3 +54,11 @@ Recovery menjeda campaign running, mempertahankan queued berjadwal, dan menandai
 ## Data sensitif
 
 Kredensial Baileys dan payload email outbox dienkripsi AES-256-GCM dengan nonce acak per nilai. Password scrypt menggunakan salt per akun, token sesi/reset/verify/invite di-hash SHA-256. Kontak, teks campaign, referensi pembayaran, dan audit tersimpan sebagai data biasa di database; pengelola harus melindungi host, volume, backup dan kunci.
+
+## Setup dan pengaturan platform
+
+Setup awal menggunakan kunci acak 256 bit, berlaku 24 jam, disimpan di file server mode 0600 dan hash-nya di database. API publik tidak mengembalikan kunci. Bootstrap memerlukan kunci tersebut, memeriksa ulang di dalam transaksi untuk menahan klaim bersamaan, membuat admin dengan email/password yang dipilih, lalu menghapus kunci. Email akun yang sudah ada tidak dapat diambil alih: password lama harus cocok.
+
+Admin dari bootstrap disimpan di `platform_admins`. Akun lama dengan email terverifikasi dalam `ADMIN_EMAILS` tetap dikenali. `/api/admin/settings` hanya dapat diakses admin platform; perubahan memerlukan password admin saat ini. Nilai sensitif tersimpan dalam payload AES-256-GCM dan respons API hanya memuat penanda password SMTP tersimpan, bukan password/URL kredensial.
+
+Runtime settings diterapkan langsung ke branding, harga, SMTP dan billing tanpa restart, serta dimuat ulang dari database saat boot. SMTP transport dibuat ulang ketika konfigurasi berubah. Invoice menyimpan snapshot nominal sehingga perubahan harga tidak mengubah invoice terdahulu. Email tes hanya dikirim ke email admin yang sedang login dan memerlukan konfirmasi password. Tidak ada pengujian SMTP otomatis yang menghalangi boot.

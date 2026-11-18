@@ -4,6 +4,8 @@ import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { db } from "./store.js";
 import { config, plans } from "./config.js";
+import { canRegister, readiness } from "./settings.js";
+import { setup, setupNeeded, ensureSetupKey } from "./bootstrap.js";
 import { auth, account, authenticated, rateLimit } from "./auth.js";
 import { routes, scope, admin, invitations } from "./routes.js";
 import { createWorker, recover } from "./worker.js";
@@ -12,6 +14,7 @@ import { lockInstance } from "./instance.js";
 import { active } from "./saas.js";
 import * as wa from "./whatsapp.js";
 const unlock = lockInstance();
+ensureSetupKey();
 const app = express();
 app.disable("x-powered-by");
 if (process.env.TRUST_PROXY)
@@ -58,12 +61,22 @@ app.get("/api/public", (req, res) =>
   res.json({
     brand: config.brand,
     plans,
-    publicSignup: config.publicSignup,
+    publicSignup: canRegister() && (!config.production || !setupNeeded()),
+    setupRequired: setupNeeded(),
+    serviceReady: Object.values(readiness()).every(Boolean),
     businessName: config.businessName,
     supportEmail: config.supportEmail,
     billingMode: "manual",
   }),
 );
+app.use("/api/setup", setup);
+app.use("/api/auth/register", (req, res, next) => {
+  if (config.production && setupNeeded())
+    return res
+      .status(503)
+      .json({ error: "Pengelola belum menyelesaikan setup awal" });
+  next();
+});
 app.use("/api/auth", auth);
 app.use("/api", authenticated, account);
 app.use("/api/admin", admin);
@@ -71,6 +84,9 @@ app.use("/api", invitations);
 app.use("/api", scope, routes);
 app.use("/api", (req, res) =>
   res.status(404).json({ error: "Endpoint tidak tersedia" }),
+);
+app.get("/setup", (req, res) =>
+  res.sendFile(fileURLToPath(new URL("../public/setup.html", import.meta.url))),
 );
 app.get("/app", (req, res) =>
   res.sendFile(fileURLToPath(new URL("../public/app.html", import.meta.url))),
