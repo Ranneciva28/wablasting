@@ -13,6 +13,7 @@ import { deliverMail } from "./mail.js";
 import { lockInstance } from "./instance.js";
 import { active } from "./saas.js";
 import * as wa from "./whatsapp.js";
+import { originValues, validOrigins } from "./origin.js";
 const unlock = lockInstance();
 ensureSetupKey();
 const app = express();
@@ -48,10 +49,12 @@ app.get("/health/ready", (req, res) => {
 app.use("/api", rateLimit(600, 60000, "api"));
 app.use("/api", (req, res, next) => {
   res.set("Cache-Control", "no-store");
+  const origins = originValues(req.rawHeaders);
+  res.set("X-Validated-Origin-Count", String(origins.length));
   if (
     !["GET", "HEAD"].includes(req.method) &&
     (req.get("X-Requested-With") !== "wablasting" ||
-      (req.get("Origin") && req.get("Origin") !== new URL(config.url).origin))
+      !validOrigins(origins, new URL(config.url).origin))
   )
     return res.status(403).json({ error: "Invalid request origin" });
   next();

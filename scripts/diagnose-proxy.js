@@ -39,6 +39,7 @@ async function probe(base, method, withOrigin = true) {
       json: parsed !== undefined,
       applicationResponse: Boolean(response.headers.get("x-request-id")),
       message: parsed?.error,
+      originCopies: response.headers.get("x-validated-origin-count"),
       setupRequired: parsed?.required,
       elapsedMs: Date.now() - start,
     };
@@ -46,6 +47,7 @@ async function probe(base, method, withOrigin = true) {
     return {
       method,
       error: error.name === "AbortError" ? "timeout" : error.name,
+      causeCode: error.cause?.code,
       elapsedMs: Date.now() - start,
     };
   } finally {
@@ -56,6 +58,25 @@ try {
   const internal = `http://127.0.0.1:${process.env.PORT || 3000}`;
   console.log(
     "Memeriksa GET/POST internal dan domain. Maksimal 12 detik per pemeriksaan; tidak menggunakan kredensial asli.",
+  );
+  // docker compose up -d returns before Node has necessarily opened its listener.
+  let startupReady = false;
+  for (let attempt = 0; attempt < 30; attempt++) {
+    try {
+      const ready = await fetch(new URL("/health/ready", internal), {
+        signal: AbortSignal.timeout(1000),
+      });
+      if (ready.ok) {
+        startupReady = true;
+        break;
+      }
+    } catch {}
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
+  console.log(
+    startupReady
+      ? "Listener internal siap."
+      : "Listener internal belum siap; diagnostik akan melaporkan kegagalan koneksi.",
   );
   const internalGet = await probe(internal, "GET"),
     internalPost = await probe(internal, "POST");
@@ -77,15 +98,19 @@ try {
         expected:
           "POST harus menghasilkan HTTP 403 JSON karena kunci uji sengaja tidak valid. Tidak ada akun dibuat.",
         conclusion:
-          internalPost.status === 403 &&
-          internalPost.json &&
+          publicPostWithoutOrigin.status === 403 &&
+          publicPostWithoutOrigin.json &&
           !(publicPost.status === 403 && publicPost.json)
-            ? "API internal merespons. Periksa reverse proxy/CDN dan log OpenLiteSpeed."
+            ? "POST tanpa Origin sampai ke aplikasi, tetapi POST dengan Origin gagal. Periksa pemrosesan header Origin di proxy/CDN."
             : internalPost.status === 403 &&
-                publicPost.status === 403 &&
-                publicPost.json
-              ? "POST internal dan domain merespons. Periksa pesan setup, origin/cookie, atau gangguan yang terjadi sesekali."
-              : "Periksa proses aplikasi/container dan log server.",
+                internalPost.json &&
+                !(publicPost.status === 403 && publicPost.json)
+              ? "API internal merespons. Periksa reverse proxy/CDN dan log OpenLiteSpeed."
+              : internalPost.status === 403 &&
+                  publicPost.status === 403 &&
+                  publicPost.json
+                ? "POST internal dan domain merespons. Periksa pesan setup, origin/cookie, atau gangguan yang terjadi sesekali."
+                : "Periksa proses aplikasi/container dan log server.",
       },
       null,
       2,

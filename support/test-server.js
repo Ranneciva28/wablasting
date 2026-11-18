@@ -75,6 +75,7 @@ export async function server(extraEnv = {}) {
       status: response.status,
       data,
       cookie: response.headers.get("set-cookie")?.split(";")[0],
+      originCopies: response.headers.get("x-validated-origin-count"),
     };
   }
   function mailToken(email, kind) {

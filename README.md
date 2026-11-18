@@ -143,3 +143,7 @@ sudo docker compose exec -T app node scripts/diagnose-proxy.js
 ```
 
 Diagnostik mengirim kunci uji yang sengaja tidak valid. Respons POST yang diharapkan adalah HTTP 403 JSON dari aplikasi, bukan sukses pembuatan akun. Bandingkan bagian internal dan public. Jika internal merespons tetapi domain 503/timeout/bukan JSON, periksa reverse proxy/CDN dan log OpenLiteSpeed. Tidak perlu menghapus database atau mengulangi registrasi. Halaman setup juga memeriksa ulang status admin setelah respons hilang agar akun yang sudah dibuat tetap diarahkan ke login.
+
+### Kompatibilitas Origin OpenLiteSpeed
+
+Sebagian build OpenLiteSpeed dapat meneruskan header Origin berulang (laporan upstream: https://github.com/litespeedtech/openlitespeed/issues/506). Aplikasi menerima duplikat hanya jika setiap nilainya persis sama dengan origin `APP_URL`. Nilai asing, campuran domain, dan Origin kosong tetap ditolak. Pemeriksaan CSRF, cookie dan kunci setup tetap aktif. Diagnostik menampilkan `originCopies` tanpa menampilkan token/kredensial, serta menunggu listener internal siap setelah container baru dimulai. Jumlah salinan lebih dari satu merupakan bukti tambahan bahwa proxy menggandakan header.
