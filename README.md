@@ -133,3 +133,13 @@ Referensi engine: https://github.com/WhiskeySockets/Baileys dan https://baileys.
 ### Jika host port 3000 sudah dipakai
 
 Tidak perlu mematikan layanan lain. Ubah/tambahkan `APP_HOST_PORT=3101` di `.env`, lalu jalankan `docker compose up -d --build`. Reverse proxy harus diarahkan ke `http://127.0.0.1:3101`. Jika 3101 juga dipakai, pilih port host lain. Installer memeriksa health dari dalam container dan menampilkan alamat host yang benar.
+
+### Setup/login menampilkan respons kosong atau 503
+
+Halaman health yang normal hanya membuktikan GET dapat diteruskan. Cek POST tanpa memakai kredensial asli:
+
+```sh
+sudo docker compose exec -T app node scripts/diagnose-proxy.js
+```
+
+Diagnostik mengirim kunci uji yang sengaja tidak valid. Respons POST yang diharapkan adalah HTTP 403 JSON dari aplikasi, bukan sukses pembuatan akun. Bandingkan bagian internal dan public. Jika internal merespons tetapi domain 503/timeout/bukan JSON, periksa reverse proxy/CDN dan log OpenLiteSpeed. Tidak perlu menghapus database atau mengulangi registrasi. Halaman setup juga memeriksa ulang status admin setelah respons hilang agar akun yang sudah dibuat tetap diarahkan ke login.

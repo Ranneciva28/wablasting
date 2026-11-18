@@ -34,7 +34,16 @@ async function api(path, { body, method, headers, ...options } = {}) {
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
-  const data = await response.json().catch(() => ({ error: "Request gagal" }));
+  const raw = await response.text();
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch {
+    throw Error(
+      `Respons server kosong atau bukan JSON (HTTP ${response.status}). Periksa aplikasi dan reverse proxy.`,
+    );
+  }
+
   if (!response.ok) {
     if (response.status === 401 && me) {
       me = null;

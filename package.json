@@ -1,6 +1,6 @@
 {
   "name": "wablasting",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "type": "module",
   "engines": {
@@ -15,7 +15,8 @@
     "preflight": "node --env-file-if-exists=.env scripts/preflight.js",
     "backup": "node --env-file-if-exists=.env scripts/backup.js",
     "format": "prettier --write \"src/**/*.js\" \"scripts/**/*.js\" \"support/**/*.js\" \"test/**/*.js\" \"public/**/*.{html,css,js}\" \"docs/**/*.md\" README.md compose.yaml",
-    "setup:link": "node --env-file-if-exists=.env scripts/setup-link.js"
+    "setup:link": "node --env-file-if-exists=.env scripts/setup-link.js",
+    "diagnose:proxy": "node --env-file-if-exists=.env scripts/diagnose-proxy.js"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "7.0.0-rc14",
