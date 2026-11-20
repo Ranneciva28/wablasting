@@ -5,56 +5,7 @@ import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
-
-// Structural fingerprint of a database: columns, defaults, keys, indexes, checks.
-function describe(db) {
-  const squash = (sql) =>
-    String(sql || "")
-      .replace(/--[^\n]*/g, "")
-      .replace(/\s+/g, "")
-      .toLowerCase();
-  const tables = db
-    .prepare(
-      "SELECT name, sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name",
-    )
-    .all();
-  const result = {};
-  for (const { name, sql } of tables) {
-    const indexes = db
-      .prepare(`PRAGMA index_list("${name}")`)
-      .all()
-      .map((i) => ({
-        name: i.name.startsWith("sqlite_autoindex") ? "(auto)" : i.name,
-        unique: i.unique,
-        partial: i.partial,
-        columns: db
-          .prepare(`PRAGMA index_info("${i.name}")`)
-          .all()
-          .map((c) => c.name),
-        sql: squash(
-          db.prepare("SELECT sql FROM sqlite_master WHERE name=?").get(i.name)
-            ?.sql,
-        ),
-      }))
-      .sort((a, b) =>
-        (a.name + a.columns).localeCompare(b.name + b.columns),
-      );
-    result[name] = {
-      columns: db
-        .prepare(`PRAGMA table_info("${name}")`)
-        .all()
-        .map((c) => [c.name, c.type, c.notnull, c.dflt_value, c.pk]),
-      foreignKeys: db
-        .prepare(`PRAGMA foreign_key_list("${name}")`)
-        .all()
-        .map((f) => [f.from, f.table, f.to]),
-      indexes,
-      checks: squash(sql).match(/check\((?:[^()]|\([^()]*\))*\)/g) || [],
-      autoincrement: squash(sql).includes("autoincrement"),
-    };
-  }
-  return result;
-}
+import { describeSchema as describe } from "../src/schema-describe.js";
 
 function migrate(dir) {
   const run = spawnSync(
@@ -102,6 +53,22 @@ test("db/schema.sql matches the schema produced by the app's migrations", async 
     } finally {
       reopened.close();
     }
+
+    // The deploy check passes on a live-like database and fails on drift.
+    const verify = (dir) =>
+      spawnSync(process.execPath, ["scripts/verify-schema.js"], {
+        env: { ...process.env, DATA_DIR: dir },
+        encoding: "utf8",
+      });
+    const ok = verify(fromApp);
+    assert.equal(ok.status, 0, ok.stderr);
+    assert.match(ok.stdout, /sesuai db\/schema\.sql/);
+    const drift = new DatabaseSync(join(fromApp, "app.sqlite"));
+    drift.exec("ALTER TABLE contacts ADD COLUMN extra TEXT");
+    drift.close();
+    const bad = verify(fromApp);
+    assert.equal(bad.status, 1);
+    assert.match(bad.stderr, /Berbeda: contacts\.columns/);
   } finally {
     await rm(fromApp, { recursive: true, force: true });
     await rm(fromFile, { recursive: true, force: true });

@@ -4,7 +4,7 @@ WABlast memakai **SQLite** (bawaan Node.js, `node:sqlite`) dalam satu file: `dat
 
 - **Skema lengkap:** [`db/schema.sql`](../db/schema.sql). Dikelompokkan per fungsi, setiap tabel dan kolom diberi komentar.
 - **Sumber kebenaran:** migrasi di `src/store.js`. Aplikasi membuat dan memperbarui database sendiri saat start, jadi `schema.sql` tidak perlu dijalankan manual.
-- **Penjaga:** `test/schema.test.js` gagal kalau `schema.sql` berbeda dari hasil migrasi. Setiap mengubah skema, perbarui keduanya.
+- **Penjaga:** `test/schema.test.js` gagal kalau `schema.sql` berbeda dari hasil migrasi, dan `scripts/verify-schema.js` mengecek database live. Setiap mengubah skema, perbarui keduanya.
 
 ## Konvensi
 
@@ -93,6 +93,16 @@ queued ──► running ──► completed
 2. Terapkan perubahan yang sama di `db/schema.sql`, lalu tambah nomor versinya di `INSERT INTO schema_migrations` paling bawah.
 3. Perbarui angka jumlah migrasi di `test/migration.test.js` dan `test/schema.test.js`.
 4. Jalankan `npm test`.
+
+## Memastikan database live sesuai `schema.sql`
+
+Perintah ini hanya membaca database (read-only) dan tidak mengubah data:
+
+```bash
+sudo docker compose exec -T app node scripts/verify-schema.js
+```
+
+Hasil yang benar: `Skema database sesuai db/schema.sql (21 tabel, migrasi versi 3).` Bila ada perbedaan, perintah keluar dengan kode 1 dan menyebut tabel atau bagian yang berbeda.
 
 ## Backup & melihat isi database
 
