@@ -110,7 +110,7 @@ Backup menyimpan data pribadi: simpan di storage privat terenkripsi, pisahkan ku
 
 Saat proses berhenti, worker diberi waktu menyelesaikan pengiriman in-flight. Jika hasil tetap tidak pasti, status menjadi `unknown` pada recovery dan tidak diulang otomatis. Campaign yang sedang berjalan dijeda setelah restart, campaign berjadwal yang masih queued tetap tersimpan. Pemilik harus memeriksa `unknown` secara manual sebelum membuat pengiriman baru.
 
-Lihat [panduan operasi](docs/OPERATIONS.md) dan [matriks akses serta API](docs/ARCHITECTURE.md).
+Lihat [panduan operasi](docs/OPERATIONS.md), [matriks akses serta API](docs/ARCHITECTURE.md), dan [struktur database](docs/DATABASE.md) (skema lengkap di [`db/schema.sql`](db/schema.sql)).
 
 ## Validasi
 
