@@ -3,595 +3,829 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>wablasting — Workspace</title>
-    <link rel="stylesheet" href="/style.css" />
-    <script defer src="/app.js?v=0.3.1"></script>
+    <meta name="theme-color" content="#151c4e" />
+    <title>WABlast — Dashboard</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="/style.css?v=0.4.0" />
+    <script defer src="/app.js?v=0.4.0"></script>
   </head>
-  <body>
-    <aside>
-      <a class="brand" href="/" data-brand>wablasting</a>
-      <p>MESSAGING WORKSPACE</p>
+  <body class="app">
+    <svg width="0" height="0" class="sr-only" aria-hidden="true">
+      <defs>
+        <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" /></symbol>
+        <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5" /><path d="M11 18h2" /></symbol>
+        <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></symbol>
+        <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13" /><path d="M22 2l-7 20-4-9-9-4z" /></symbol>
+        <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 9h8M8 13h5" /></symbol>
+        <symbol id="i-team" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4" /><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" /></symbol>
+        <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" /></symbol>
+        <symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></symbol>
+        <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></symbol>
+        <symbol id="i-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" /></symbol>
+        <symbol id="i-qr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><path d="M14 14h3v3M21 14v.01M14 21h3M21 17v4h-1" /></symbol>
+      </defs>
+    </svg>
+
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Beranda">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" fill="#f2b33d" />
+          <path d="M8.5 9h9.5a3.5 3.5 0 0 1 3.5 3.5v4a3.5 3.5 0 0 1-3.5 3.5h-4.6L9.6 23v-3.1A3.5 3.5 0 0 1 5 16.5v-4A3.5 3.5 0 0 1 8.5 9z" fill="#151c4e" />
+          <path d="M24.2 10.6a7 7 0 0 1 0 7.8M26.9 8.4a10.4 10.4 0 0 1 0 12.2" stroke="#151c4e" stroke-width="2" stroke-linecap="round" fill="none" />
+        </svg>
+        <span data-brand>WABlast</span>
+      </a>
       <label id="workspace-switch-label" hidden
         >Workspace<select id="workspace-switch"></select
       ></label>
-      <nav id="navigation" hidden>
-        <a href="#overview">Ringkasan</a><a href="#connection">WhatsApp</a
-        ><a href="#contacts">Kontak</a><a href="#campaigns">Campaign</a
-        ><a href="#templates">Template</a><a href="#team" data-management>Tim</a
-        ><a href="#billing">Langganan</a
-        ><a href="#audit" data-management>Aktivitas</a
-        ><a href="#settings">Pengaturan</a
-        ><a href="#admin" id="admin-nav" hidden>Admin platform</a
-        ><a href="#platform" id="platform-nav" hidden>Pengaturan platform</a>
+      <nav id="navigation" aria-label="Menu dashboard" hidden>
+        <a href="#overview"><svg><use href="#i-home" /></svg><span>Ringkasan</span></a>
+        <a href="#connection"><svg><use href="#i-phone" /></svg><span>WhatsApp</span></a>
+        <a href="#contacts"><svg><use href="#i-users" /></svg><span>Kontak</span></a>
+        <a href="#campaigns"><svg><use href="#i-send" /></svg><span>Campaign</span></a>
+        <a href="#templates"><svg><use href="#i-doc" /></svg><span>Template</span></a>
+        <div class="nav-group">Kelola</div>
+        <a href="#team" data-management><svg><use href="#i-team" /></svg><span>Tim</span></a>
+        <a href="#billing"><svg><use href="#i-card" /></svg><span>Langganan</span></a>
+        <a href="#audit" data-management><svg><use href="#i-list" /></svg><span>Aktivitas</span></a>
+        <a href="#settings"><svg><use href="#i-gear" /></svg><span>Pengaturan</span></a>
+        <div class="nav-group" id="platform-group" hidden>Admin platform</div>
+        <a href="#admin" id="admin-nav" hidden><svg><use href="#i-shield" /></svg><span>Pelanggan & pembayaran</span></a>
+        <a href="#platform" id="platform-nav" hidden><svg><use href="#i-sliders" /></svg><span>Pengaturan platform</span></a>
       </nav>
-      <small
-        >Unofficial WhatsApp client<br /><a href="/terms.html">Ketentuan</a> ·
-        <a href="/privacy.html">Privasi</a></small
-      >
+      <div class="sidebar-foot">
+        Klien WhatsApp tidak resmi.<br />
+        <a href="/terms.html">Ketentuan</a> ·
+        <a href="/privacy.html">Privasi</a> ·
+        <a data-support href="/">Bantuan</a>
+      </div>
     </aside>
-    <main>
-      <header>
+
+    <div class="main">
+      <header class="topbar">
         <div>
-          <p class="eyebrow">MESSAGING, WITH A PERSONAL TOUCH</p>
-          <h1 id="page-title">Selamat datang.</h1>
-          <p id="identity" class="muted">
-            Masuk dan mulai bangun hubungan dengan pelanggan.
-          </p>
+          <h1 id="page-title">Ringkasan</h1>
+          <p id="page-sub" class="muted"></p>
         </div>
-        <button id="logout" hidden>Keluar</button>
+        <div class="topbar-user">
+          <span class="avatar" id="avatar" aria-hidden="true"></span>
+          <p id="identity"></p>
+          <button id="logout" hidden>Keluar</button>
+        </div>
       </header>
-      <p id="notice" role="status" aria-live="polite"></p>
-      <section id="auth">
-        <div class="sectionhead">
-          <h2 id="auth-title">Masuk ke workspace</h2>
-          <a href="/">Lihat paket ↗</a>
-        </div>
-        <form id="login">
-          <label
-            >Email<input
-              name="email"
-              type="email"
-              autocomplete="username"
-              required
-              maxlength="200" /></label
-          ><label
-            >Password<input
-              name="password"
-              type="password"
-              minlength="12"
-              maxlength="128"
-              autocomplete="current-password"
-              required
-          /></label>
-          <div id="registration-fields" hidden>
-            <label>Nama bisnis<input name="company" maxlength="100" /></label
-            ><label id="invite-code-label"
-              >Kode pendaftaran<input
-                name="code"
-                type="password"
-                autocomplete="off" /></label
-            ><label class="check"
-              ><input name="acceptTerms" type="checkbox" /> Saya setuju dengan
-              <a href="/terms.html" target="_blank">ketentuan</a> dan
-              <a href="/privacy.html" target="_blank">privasi</a>.</label
-            >
-          </div>
-          <button class="primary" id="auth-submit">Masuk</button>
-        </form>
-        <div class="auth-links">
-          <button class="link" id="auth-toggle">Belum punya akun? Daftar</button
-          ><button class="link" id="forgot-toggle">Lupa password?</button>
-        </div>
-      </section>
-      <section id="forgot" hidden>
-        <h2>Reset password</h2>
-        <form id="forgot-form">
-          <label>Email<input name="email" type="email" required /></label
-          ><button class="primary">Kirim tautan reset</button
-          ><button type="button" id="forgot-back">Kembali</button>
-        </form>
-      </section>
-      <section id="reset" hidden>
-        <h2>Password baru</h2>
-        <form id="reset-form">
-          <label
-            >Password baru<input
-              name="password"
-              type="password"
-              minlength="12"
-              maxlength="128"
-              autocomplete="new-password"
-              required /></label
-          ><button class="primary">Simpan password</button>
-        </form>
-      </section>
-      <div id="workspace" hidden>
-        <section id="verify-banner" class="banner" hidden>
-          <strong>Verifikasi email untuk mulai mengirim.</strong>
-          <p>Buka tautan di email kamu. Cek juga folder spam.</p>
-          <button id="resend-verify">Kirim ulang email verifikasi</button>
-        </section>
-        <div data-panel="overview">
-          <div class="stats" id="stats"></div>
-          <section>
-            <p class="eyebrow">START HERE</p>
-            <h2>Tiga langkah menuju campaign pertama.</h2>
-            <div class="steps">
-              <a href="#connection"
-                ><b>01</b><strong>Tautkan WhatsApp</strong
-                ><span>Scan QR dari perangkat kamu.</span></a
-              ><a href="#contacts"
-                ><b>02</b><strong>Siapkan penerima</strong
-                ><span>Tambah kontak atau impor CSV.</span></a
-              ><a href="#campaigns"
-                ><b>03</b><strong>Buat campaign</strong
-                ><span>Personalisasi, jadwalkan, kirim.</span></a
-              >
-            </div>
-          </section>
-          <section>
-            <h2>Workspace kamu</h2>
-            <p id="workspace-summary"></p>
-            <a class="button primary" href="#billing">Kelola langganan</a>
-            <p class="muted">
-              Kuota dihitung saat penerima dimasukkan ke campaign. Jeda, batal,
-              dan pengiriman gagal tidak mengembalikan kuota pada periode yang
-              sama.
+      <p id="notice" role="status" aria-live="polite" title="Klik untuk menutup"></p>
+
+      <div class="content">
+        <!-- Signed-out: brand side -->
+        <div class="auth-side">
+          <a class="brand" href="/">
+            <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+              <rect width="32" height="32" rx="9" fill="#f2b33d" />
+              <path d="M8.5 9h9.5a3.5 3.5 0 0 1 3.5 3.5v4a3.5 3.5 0 0 1-3.5 3.5h-4.6L9.6 23v-3.1A3.5 3.5 0 0 1 5 16.5v-4A3.5 3.5 0 0 1 8.5 9z" fill="#151c4e" />
+              <path d="M24.2 10.6a7 7 0 0 1 0 7.8M26.9 8.4a10.4 10.4 0 0 1 0 12.2" stroke="#151c4e" stroke-width="2" stroke-linecap="round" fill="none" />
+            </svg>
+            <span data-brand>WABlast</span>
+          </a>
+          <div class="auth-copy">
+            <h2>Sapa ratusan pelanggan, satu per satu.</h2>
+            <p>
+              Tautkan nomor WhatsApp bisnismu, siapkan kontak yang sudah setuju,
+              lalu kirim pesan personal sesuai jadwal.
             </p>
-          </section>
-        </div>
-        <div data-panel="connection" hidden>
-          <section>
-            <div class="sectionhead">
-              <div>
-                <p class="eyebrow">LINK YOUR DEVICE</p>
-                <h2>WhatsApp bisnis kamu</h2>
+            <div class="stack" aria-hidden="true">
+              <div class="msg">
+                <span class="contact-avatar">RA</span>
+                <span><b>Halo Rani,</b> pesanan PO kamu siap diambil…</span>
+                <span class="tick" data-tone="ok">Terkirim</span>
               </div>
-              <span id="wa-state" class="badge">disconnected</span>
+              <div class="msg">
+                <span class="contact-avatar">BS</span>
+                <span><b>Halo Budi,</b> pesanan PO kamu siap diambil…</span>
+                <span class="tick">Antre</span>
+              </div>
             </div>
-            <p>
-              Pindai QR lewat WhatsApp → Perangkat tertaut → Tautkan perangkat.
-            </p>
-            <img
-              id="qr"
-              width="240"
-              height="240"
-              alt="QR untuk menautkan WhatsApp"
-              hidden
-            />
-            <p id="wa-phone"></p>
-            <div class="actions" data-management>
-              <button id="connect" class="primary">Hubungkan WhatsApp</button
-              ><button id="disconnect">Putuskan & hapus sesi</button>
-            </div>
-            <p class="muted">
-              Satu nomor WhatsApp per workspace. Sesi tersimpan terenkripsi dan
-              dimuat ulang setelah restart.
-            </p>
-          </section>
-        </div>
-        <div data-panel="contacts" hidden>
-          <div class="columns">
-            <section>
-              <p class="eyebrow">AUDIENCE</p>
-              <h2>Tambah kontak</h2>
-              <form id="contact-form">
-                <label>Nama<input name="name" maxlength="100" required /></label
-                ><label
-                  >Nomor WhatsApp<input
-                    name="phone"
-                    placeholder="628123456789"
-                    required /></label
-                ><label
-                  >Sumber persetujuan<input
-                    name="source"
-                    placeholder="Form pendaftaran pelanggan, 15 Nov 2026"
-                    maxlength="300"
-                    required /></label
-                ><label class="check"
-                  ><input name="optin" type="checkbox" required /> Penerima
-                  sudah menyetujui pesan dari bisnis saya.</label
-                ><button class="primary">Simpan kontak</button>
-              </form>
-            </section>
-            <section>
-              <h2>Impor CSV</h2>
-              <p>
-                Gunakan header <code>name,phone</code>. Maksimal 1.000 baris per
-                impor; seluruh baris dibatalkan jika ada yang tidak valid.
-              </p>
-              <a href="/contacts-example.csv" download>Unduh contoh CSV</a>
-              <form id="import-form">
-                <label
-                  >File CSV<input
-                    name="file"
-                    type="file"
-                    accept=".csv,text/csv"
-                    required /></label
-                ><label
-                  >Sumber persetujuan<input
-                    name="source"
-                    maxlength="300"
-                    required /></label
-                ><label class="check"
-                  ><input name="optin" type="checkbox" required /> Semua
-                  penerima sudah menyetujui pesan.</label
-                ><button>Impor kontak</button>
-              </form>
-            </section>
           </div>
-          <section>
-            <div class="sectionhead">
-              <h2>Daftar kontak</h2>
-              <button id="select-page">Pilih halaman ini</button>
-            </div>
-            <p id="selected-count" class="muted"></p>
-            <div id="contact-list"></div>
-            <div class="actions">
-              <button id="contacts-prev">Sebelumnya</button
-              ><button id="contacts-next">Berikutnya</button>
-            </div>
-          </section>
-          <section>
-            <h2>Opt-out</h2>
-            <p>
-              Pesan masuk STOP, BERHENTI, atau UNSUBSCRIBE dari nomor yang
-              teridentifikasi akan diproses otomatis. Kamu juga bisa menambahkan
-              nomor secara manual.
-            </p>
-            <form id="suppress-form" class="inline">
-              <label
-                >Nomor<input name="phone" placeholder="628…" required /></label
-              ><button>Hentikan pesan</button>
-            </form>
-            <div id="suppressions"></div>
-            <button id="suppress-more">Muat berikutnya</button>
-          </section>
+          <small
+            ><a href="/terms.html">Ketentuan</a> ·
+            <a href="/privacy.html">Privasi</a> ·
+            <a data-support href="/">Bantuan</a></small
+          >
         </div>
-        <div data-panel="campaigns" hidden>
-          <section>
-            <p class="eyebrow">COMPOSE</p>
-            <h2>Campaign baru</h2>
-            <form id="campaign-form">
+
+        <!-- Signed-out: forms -->
+        <div class="auth-pane">
+          <section id="auth" class="card">
+            <h2 id="auth-title">Masuk ke workspace</h2>
+            <p class="card-lead" id="auth-lead">
+              Masuk untuk mengelola kontak dan campaign.
+            </p>
+            <form id="login">
               <label
-                >Nama campaign<input
-                  name="name"
-                  maxlength="100"
-                  required /></label
-              ><label
-                >Template<select id="template-picker">
-                  <option value="">Tulis pesan baru</option>
-                </select></label
-              ><label
-                >Pesan<textarea
-                  name="message"
-                  rows="7"
-                  maxlength="4000"
-                  placeholder="Halo {{nama}}, …"
+                >Email<input
+                  name="email"
+                  type="email"
+                  autocomplete="username"
+                  placeholder="nama@bisnismu.com"
                   required
-                ></textarea></label
+                  maxlength="200" /></label
               ><label
-                >Jadwal opsional (zona waktu perangkat)<input
-                  name="scheduled"
-                  type="datetime-local"
-              /></label>
-              <p id="campaign-hint" class="muted"></p>
-              <p class="muted">
-                Pilih penerima di <a href="#contacts">halaman kontak</a>.
-                Gunakan {{nama}} untuk personalisasi. Sertakan cara berhenti
-                berlangganan, misalnya “Balas STOP untuk berhenti”.
-              </p>
-              <button class="primary">Mulai campaign</button>
-            </form>
-          </section>
-          <section>
-            <h2>Riwayat campaign</h2>
-            <div id="campaign-list"></div>
-            <div class="actions">
-              <button id="campaigns-prev">Sebelumnya</button
-              ><button id="campaigns-next">Berikutnya</button>
-            </div>
-          </section>
-          <section id="details-section" hidden>
-            <h2 id="details-title">Detail pengiriman</h2>
-            <div id="details"></div>
-            <div class="actions">
-              <button id="details-prev">Sebelumnya</button
-              ><button id="details-next">Berikutnya</button>
-            </div>
-          </section>
-        </div>
-        <div data-panel="templates" hidden>
-          <section>
-            <h2>Template pesan</h2>
-            <form id="template-form">
-              <label>Nama<input name="name" maxlength="100" required /></label
-              ><label
-                >Pesan<textarea
-                  name="message"
-                  maxlength="4000"
-                  rows="5"
-                  required
-                ></textarea></label
-              ><button class="primary">Simpan template</button>
-            </form>
-            <div id="template-list"></div>
-          </section>
-        </div>
-        <div data-panel="team" hidden>
-          <section>
-            <h2>Tim workspace</h2>
-            <p>
-              Owner mengelola billing dan anggota. Admin mengelola koneksi,
-              kontak, serta campaign. Operator mengelola kontak dan campaign.
-            </p>
-            <form id="team-form" class="inline" data-owner>
-              <label>Email<input name="email" type="email" required /></label
-              ><label
-                >Role<select name="role">
-                  <option value="operator">Operator</option>
-                  <option value="admin">Admin</option>
-                </select></label
-              ><button class="primary">Kirim undangan</button>
-            </form>
-            <div id="team-list"></div>
-            <h3>Undangan aktif</h3>
-            <div id="invite-list"></div>
-          </section>
-        </div>
-        <div data-panel="billing" hidden>
-          <section>
-            <div class="sectionhead">
-              <h2>Langganan</h2>
-              <span class="badge">Transfer manual</span>
-            </div>
-            <p id="billing-summary"></p>
-            <div id="billing-plans" class="plan-grid"></div>
-          </section>
-          <section>
-            <h2>Instruksi pembayaran</h2>
-            <p id="payment-instructions" class="preserve"></p>
-            <p>
-              Bayar sesuai nominal invoice, lalu kirim referensi transfer. Paket
-              aktif setelah admin memverifikasi pembayaran. Jangan transfer
-              untuk invoice yang kedaluwarsa.
-            </p>
-            <div id="invoice-list"></div>
-          </section>
-        </div>
-        <div data-panel="audit" hidden>
-          <section>
-            <h2>Aktivitas workspace</h2>
-            <div id="audit-list"></div>
-            <button id="audit-more">Muat berikutnya</button>
-          </section>
-        </div>
-        <div data-panel="settings" hidden>
-          <section data-management>
-            <h2>Profil bisnis</h2>
-            <form id="workspace-form">
-              <label
-                >Nama workspace<input
-                  name="name"
-                  maxlength="100"
-                  required /></label
-              ><button>Simpan</button>
-            </form>
-          </section>
-          <section>
-            <h2>Keamanan akun</h2>
-            <form id="password-form">
-              <label
-                >Password saat ini<input
-                  name="current"
+                >Password<input
+                  name="password"
                   type="password"
+                  minlength="12"
+                  maxlength="128"
+                  autocomplete="current-password"
+                  placeholder="Minimal 12 karakter"
                   required
-                  autocomplete="current-password" /></label
-              ><label
+              /></label>
+              <div id="registration-fields" hidden>
+                <label
+                  >Nama bisnis<input
+                    name="company"
+                    maxlength="100"
+                    placeholder="Contoh: Toko Batik Sekar" /></label
+                ><label id="invite-code-label"
+                  >Kode pendaftaran<input
+                    name="code"
+                    type="password"
+                    autocomplete="off" /></label
+                ><label class="check"
+                  ><input name="acceptTerms" type="checkbox" /><span
+                    >Saya setuju dengan
+                    <a href="/terms.html" target="_blank">ketentuan layanan</a>
+                    dan
+                    <a href="/privacy.html" target="_blank">kebijakan privasi</a
+                    >.</span
+                  ></label
+                >
+              </div>
+              <button class="primary" id="auth-submit">Masuk</button>
+            </form>
+            <div class="auth-links">
+              <button class="link" id="auth-toggle">
+                Belum punya akun? Daftar</button
+              ><button class="link" id="forgot-toggle">Lupa password?</button>
+            </div>
+          </section>
+          <section id="forgot" class="card" hidden>
+            <h2>Reset password</h2>
+            <p class="card-lead">
+              Masukkan email akunmu. Kami kirim tautan untuk membuat password
+              baru.
+            </p>
+            <form id="forgot-form">
+              <label>Email<input name="email" type="email" required /></label>
+              <div class="actions">
+                <button class="primary">Kirim tautan reset</button
+                ><button type="button" id="forgot-back">Kembali ke halaman masuk</button>
+              </div>
+            </form>
+          </section>
+          <section id="reset" class="card" hidden>
+            <h2>Buat password baru</h2>
+            <p class="card-lead">
+              Setelah disimpan, semua sesi lama otomatis keluar.
+            </p>
+            <form id="reset-form">
+              <label
                 >Password baru<input
                   name="password"
                   type="password"
                   minlength="12"
                   maxlength="128"
-                  required
-                  autocomplete="new-password" /></label
-              ><button>Ganti password & keluar semua sesi</button>
+                  autocomplete="new-password"
+                  placeholder="Minimal 12 karakter"
+                  required /></label
+              ><button class="primary">Simpan password</button>
             </form>
           </section>
-          <section data-owner>
-            <h2>Data bisnis</h2>
-            <button id="export">Ekspor data JSON</button>
-            <details>
-              <summary class="danger">Hapus data operasional workspace</summary>
-              <p>
-                Menghapus kontak, persetujuan, opt-out, template, campaign, dan
-                sesi WhatsApp. Akun, langganan, invoice, serta audit tetap
-                disimpan. Tindakan ini tidak bisa dibatalkan.
-              </p>
-              <form id="delete-form">
-                <label
-                  >Password<input
-                    name="password"
-                    type="password"
-                    required /></label
-                ><label
-                  >Ketik DELETE<input
-                    name="confirm"
-                    pattern="DELETE"
-                    required /></label
-                ><button class="danger">Hapus data permanen</button>
-              </form>
-            </details>
-          </section>
         </div>
-        <div data-panel="platform" hidden>
-          <section>
-            <p class="eyebrow">SETUP LAYANAN</p>
-            <h2>Atur semuanya dari panel.</h2>
-            <p>
-              Pengaturan tersimpan terenkripsi dan langsung berlaku. SMTP dan
-              rekening boleh diisi nanti. Registrasi pelanggan baru dibuka
-              setelah identitas, email pengirim/SMTP, dan rekening lengkap.
-            </p>
-            <p id="platform-readiness" class="badge"></p>
-          </section>
-          <form id="platform-form">
-            <section>
-              <h2>Identitas bisnis</h2>
-              <label
-                >Nama brand<input
-                  name="brand"
-                  required
-                  maxlength="100" /></label
-              ><label
-                >Nama bisnis/pengelola<input
-                  name="businessName"
-                  maxlength="200" /></label
-              ><label
-                >Email bantuan pelanggan<input
-                  name="supportEmail"
-                  type="email"
-                  maxlength="200" /></label
-              ><label class="check"
-                ><input name="publicSignup" type="checkbox" /> Buka registrasi
-                publik setelah pengaturan lengkap</label
-              >
-            </section>
-            <section>
-              <h2>Email SMTP</h2>
+
+        <!-- Signed-in workspace -->
+        <div id="workspace" hidden>
+          <section id="verify-banner" class="banner" hidden>
+            <div>
+              <strong>Verifikasi email untuk mulai mengirim.</strong>
               <p>
-                Password disimpan terenkripsi dan tidak ditampilkan kembali.
-                Kosongkan password untuk mempertahankan password SMTP yang
-                tersimpan. Gmail memakai username alamat email lengkap dan App
-                Password dari akun tersebut.
+                Buka tautan yang kami kirim ke emailmu. Cek juga folder spam.
               </p>
-              <label class="check"
-                ><input name="smtpEnabled" type="checkbox" /> Aktifkan
-                pengiriman email</label
-              >
-              <div class="columns">
-                <label
-                  >Host SMTP<input
-                    name="smtpHost"
-                    placeholder="smtp.gmail.com"
-                    maxlength="253" /></label
-                ><label
-                  >Port<input
-                    name="smtpPort"
-                    type="number"
-                    min="1"
-                    max="65535"
-                    value="587"
-                /></label>
-              </div>
-              <label
-                >Username SMTP<input
-                  name="smtpUsername"
-                  autocomplete="off"
-                  maxlength="300" /></label
-              ><label
-                >Password SMTP / App Password<input
-                  name="smtpPassword"
-                  type="password"
-                  autocomplete="new-password"
-                  maxlength="1000" /></label
-              ><label class="check"
-                ><input name="smtpSecure" type="checkbox" /> TLS langsung
-                (biasanya port 465); jika tidak dicentang, gunakan STARTTLS
-                (biasanya 587)</label
-              ><label
-                >Email pengirim<input
-                  name="mailFrom"
-                  placeholder="nama@domain.com"
-                  maxlength="300"
-              /></label>
-            </section>
-            <section>
-              <h2>Pembayaran dan harga</h2>
-              <label
-                >Instruksi transfer<textarea
-                  name="paymentInstructions"
-                  rows="4"
-                  maxlength="2000"
-                  placeholder="Bank, nomor rekening, nama penerima, dan cara konfirmasi"
-                ></textarea>
-              </label>
-              <p>
-                Harga berlaku untuk invoice baru. Invoice yang sudah dibuat
-                tetap memakai nominal sebelumnya.
-              </p>
-              <div class="columns">
-                <label
-                  >Starter / 30 hari (Rp)<input
-                    name="priceStarter"
-                    type="number"
-                    min="1000"
-                    max="1000000000"
-                    required /></label
-                ><label
-                  >Growth / 30 hari (Rp)<input
-                    name="priceGrowth"
-                    type="number"
-                    min="1000"
-                    max="1000000000"
-                    required /></label
-                ><label
-                  >Business / 30 hari (Rp)<input
-                    name="priceBusiness"
-                    type="number"
-                    min="1000"
-                    max="1000000000"
-                    required
-                /></label>
-              </div>
-            </section>
-            <section>
-              <h2>Simpan dengan aman</h2>
-              <label
-                >Password akun admin saat ini<input
-                  name="currentPassword"
-                  type="password"
-                  autocomplete="current-password"
-                  required
-                  minlength="12"
-                  maxlength="128"
-              /></label>
-              <div class="actions">
-                <button class="primary">Simpan pengaturan</button
-                ><button type="button" id="platform-test-email">
-                  Kirim email tes ke akun saya
-                </button>
-              </div>
-              <p>Email tes memakai konfigurasi terakhir yang sudah disimpan.</p>
-            </section>
-          </form>
-        </div>
-        <div data-panel="admin" hidden>
-          <div class="stats" id="admin-stats"></div>
-          <section>
-            <h2>Verifikasi pembayaran</h2>
-            <p>
-              Pastikan dana benar-benar masuk sebelum menyetujui. Konfirmasi
-              pelanggan tidak mengaktifkan paket secara otomatis.
-            </p>
-            <div id="admin-invoices"></div>
-          </section>
-          <section>
-            <h2>Workspace pelanggan</h2>
-            <div id="admin-workspaces"></div>
-            <div class="actions">
-              <button id="admin-prev">Sebelumnya</button
-              ><button id="admin-next">Berikutnya</button>
             </div>
+            <button id="resend-verify">Kirim ulang email verifikasi</button>
           </section>
+
+          <!-- Overview -->
+          <div data-panel="overview">
+            <div class="stats" id="stats"></div>
+            <section class="card">
+              <h2>Kirim campaign pertamamu</h2>
+              <p class="muted">Ikuti urutan ini sekali, setelah itu tinggal kirim.</p>
+              <ol class="steps">
+                <li>
+                  <a href="#connection"
+                    ><strong>Tautkan WhatsApp</strong
+                    ><span>Scan QR dari HP kamu.</span></a
+                  >
+                </li>
+                <li>
+                  <a href="#contacts"
+                    ><strong>Siapkan penerima</strong
+                    ><span>Tambah kontak atau impor CSV.</span></a
+                  >
+                </li>
+                <li>
+                  <a href="#campaigns"
+                    ><strong>Buat campaign</strong
+                    ><span>Tulis pesan, pilih jadwal, kirim.</span></a
+                  >
+                </li>
+              </ol>
+            </section>
+            <section class="card">
+              <div class="card-head">
+                <div>
+                  <h2>Workspace kamu</h2>
+                  <p id="workspace-summary" class="meta"></p>
+                </div>
+                <a class="button" href="#billing">Kelola langganan</a>
+              </div>
+              <p class="muted">
+                Kuota terpakai saat penerima dimasukkan ke campaign. Campaign
+                yang dijeda, dibatalkan, atau gagal tidak mengembalikan kuota
+                pada periode yang sama.
+              </p>
+            </section>
+          </div>
+
+          <!-- WhatsApp -->
+          <div data-panel="connection" hidden>
+            <section class="card">
+              <div class="connect">
+                <div>
+                  <div class="card-head">
+                    <div>
+                      <h2>Nomor WhatsApp bisnis</h2>
+                      <p class="muted">Satu nomor untuk satu workspace.</p>
+                    </div>
+                    <span id="wa-state" class="badge">Belum terhubung</span>
+                  </div>
+                  <ol class="howto">
+                    <li>Klik <b>Hubungkan WhatsApp</b> di bawah.</li>
+                    <li>Di HP, buka WhatsApp lalu pilih <b>Perangkat tertaut</b>.</li>
+                    <li>Pilih <b>Tautkan perangkat</b> dan arahkan kamera ke QR.</li>
+                  </ol>
+                  <div class="actions" data-management>
+                    <button id="connect" class="primary">Hubungkan WhatsApp</button
+                    ><button id="disconnect" class="danger">Putuskan & hapus sesi</button>
+                  </div>
+                  <p class="muted">
+                    Sesi tersimpan terenkripsi dan tersambung lagi otomatis
+                    setelah server dimulai ulang.
+                  </p>
+                </div>
+                <div>
+                  <div class="qr-frame">
+                    <img
+                      id="qr"
+                      width="264"
+                      height="264"
+                      alt="QR untuk menautkan WhatsApp"
+                      hidden
+                    />
+                    <div class="qr-empty" id="qr-empty">
+                      <svg><use href="#i-qr" /></svg>
+                      <span id="qr-empty-text">QR muncul di sini setelah kamu klik Hubungkan WhatsApp.</span>
+                    </div>
+                  </div>
+                  <p id="wa-phone"></p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Contacts -->
+          <div data-panel="contacts" hidden>
+            <div class="split">
+              <section class="card">
+                <div class="card-head">
+                  <div>
+                    <h2>Daftar kontak</h2>
+                    <p class="muted">Centang kontak yang akan menerima campaign.</p>
+                  </div>
+                  <button id="select-page">Pilih semua di halaman ini</button>
+                </div>
+                <div class="toolbar">
+                  <p id="selected-count"></p>
+                  <a href="#campaigns">Buat campaign</a>
+                </div>
+                <div id="contact-list" class="list"></div>
+                <div class="actions pager">
+                  <button id="contacts-prev">Sebelumnya</button
+                  ><button id="contacts-next">Berikutnya</button>
+                </div>
+              </section>
+              <div>
+                <section class="card">
+                  <h2>Tambah kontak</h2>
+                  <form id="contact-form">
+                    <label>Nama<input name="name" maxlength="100" placeholder="Rani Kusuma" required /></label
+                    ><label
+                      >Nomor WhatsApp<input
+                        name="phone"
+                        inputmode="tel"
+                        placeholder="628123456789"
+                        required /></label
+                    ><label
+                      >Sumber persetujuan<input
+                        name="source"
+                        placeholder="Form pendaftaran member, 15 Nov 2026"
+                        maxlength="300"
+                        required /></label
+                    ><label class="check"
+                      ><input name="optin" type="checkbox" required /><span
+                        >Kontak ini sudah setuju menerima pesan dari bisnis
+                        saya.</span
+                      ></label
+                    ><button class="primary">Simpan kontak</button>
+                  </form>
+                </section>
+                <section class="card">
+                  <h2>Impor dari CSV</h2>
+                  <p class="muted">
+                    Kolom <code>name,phone</code>, maksimal 1.000 baris. Jika ada
+                    satu baris salah, seluruh impor dibatalkan.
+                    <a href="/contacts-example.csv" download>Unduh contoh CSV</a>
+                  </p>
+                  <form id="import-form">
+                    <label
+                      >File CSV<input
+                        name="file"
+                        type="file"
+                        accept=".csv,text/csv"
+                        required /></label
+                    ><label
+                      >Sumber persetujuan<input
+                        name="source"
+                        maxlength="300"
+                        placeholder="Contoh: Daftar member toko 2026"
+                        required /></label
+                    ><label class="check"
+                      ><input name="optin" type="checkbox" required /><span
+                        >Semua kontak di file ini sudah setuju menerima
+                        pesan.</span
+                      ></label
+                    ><button>Impor kontak</button>
+                  </form>
+                </section>
+              </div>
+            </div>
+            <section class="card">
+              <div class="card-head">
+                <div>
+                  <h2>Daftar opt-out</h2>
+                  <p class="muted">
+                    Nomor yang membalas STOP, BERHENTI, atau UNSUBSCRIBE masuk
+                    ke sini otomatis dan tidak akan dikirimi pesan lagi.
+                  </p>
+                </div>
+              </div>
+              <form id="suppress-form" class="inline">
+                <label
+                  >Tambah nomor secara manual<input name="phone" inputmode="tel" placeholder="628…" required /></label
+                ><button>Hentikan pesan ke nomor ini</button>
+              </form>
+              <div id="suppressions" class="list"></div>
+              <div class="actions pager">
+                <button id="suppress-more">Muat berikutnya</button>
+              </div>
+            </section>
+          </div>
+
+          <!-- Campaigns -->
+          <div data-panel="campaigns" hidden>
+            <div class="split">
+              <section class="card">
+                <h2>Campaign baru</h2>
+                <p class="muted">
+                  Penerima diambil dari kontak yang kamu centang di
+                  <a href="#contacts">halaman Kontak</a>.
+                </p>
+                <form id="campaign-form">
+                  <label
+                    >Nama campaign<input
+                      name="name"
+                      maxlength="100"
+                      placeholder="Promo restock November"
+                      required /></label
+                  ><label
+                    >Mulai dari template<select id="template-picker">
+                      <option value="">Tulis pesan baru</option>
+                    </select></label
+                  ><label
+                    >Pesan<textarea
+                      name="message"
+                      rows="7"
+                      maxlength="4000"
+                      placeholder="Halo {{nama}}, …"
+                      required
+                    ></textarea></label
+                  ><label
+                    >Jadwal kirim (opsional, zona waktu perangkat)<input
+                      name="scheduled"
+                      type="datetime-local"
+                  /></label>
+                  <p id="campaign-hint"></p>
+                  <p class="muted">
+                    Tulis <code>{{nama}}</code> untuk menyapa penerima dengan
+                    namanya. Sertakan cara berhenti, misalnya “Balas STOP untuk
+                    berhenti”.
+                  </p>
+                  <button class="primary">Mulai campaign</button>
+                </form>
+              </section>
+              <aside class="preview" aria-label="Pratinjau pesan">
+                <h2>Pratinjau</h2>
+                <p class="muted" id="preview-to">Seperti yang diterima Rani.</p>
+                <div class="bubble" id="preview" data-time="sekarang"></div>
+              </aside>
+            </div>
+            <section class="card">
+              <div class="card-head">
+                <div>
+                  <h2>Riwayat campaign</h2>
+                  <p class="muted">Status diperbarui otomatis setiap beberapa detik.</p>
+                </div>
+              </div>
+              <div id="campaign-list" class="list"></div>
+              <div class="actions pager">
+                <button id="campaigns-prev">Sebelumnya</button
+                ><button id="campaigns-next">Berikutnya</button>
+              </div>
+            </section>
+            <section class="card" id="details-section" hidden>
+              <div class="card-head">
+                <div>
+                  <h2 id="details-title">Detail pengiriman</h2>
+                  <p class="muted">
+                    “Belum pasti” berarti hasilnya tidak terkonfirmasi. Cek
+                    WhatsApp di HP sebelum mengirim ulang.
+                  </p>
+                </div>
+              </div>
+              <div id="details" class="list"></div>
+              <div class="actions pager">
+                <button id="details-prev">Sebelumnya</button
+                ><button id="details-next">Berikutnya</button>
+              </div>
+            </section>
+          </div>
+
+          <!-- Templates -->
+          <div data-panel="templates" hidden>
+            <div class="split">
+              <section class="card">
+                <h2>Template tersimpan</h2>
+                <div id="template-list" class="list"></div>
+              </section>
+              <section class="card">
+                <h2>Template baru</h2>
+                <form id="template-form">
+                  <label>Nama template<input name="name" maxlength="100" placeholder="Pengingat PO" required /></label
+                  ><label
+                    >Pesan<textarea
+                      name="message"
+                      maxlength="4000"
+                      rows="6"
+                      placeholder="Halo {{nama}}, …"
+                      required
+                    ></textarea></label
+                  ><button class="primary">Simpan template</button>
+                </form>
+              </section>
+            </div>
+          </div>
+
+          <!-- Team -->
+          <div data-panel="team" hidden>
+            <section class="card">
+              <h2>Anggota tim</h2>
+              <p class="muted">
+                Owner mengelola langganan dan anggota. Admin mengelola nomor
+                WhatsApp, kontak, dan campaign. Operator mengelola kontak dan
+                campaign.
+              </p>
+              <form id="team-form" class="inline" data-owner>
+                <label>Email anggota<input name="email" type="email" placeholder="nama@bisnismu.com" required /></label
+                ><label
+                  >Role<select name="role">
+                    <option value="operator">Operator</option>
+                    <option value="admin">Admin</option>
+                  </select></label
+                ><button class="primary">Kirim undangan</button>
+              </form>
+              <div id="team-list" class="list"></div>
+              <h3>Undangan yang belum diterima</h3>
+              <div id="invite-list" class="list"></div>
+            </section>
+          </div>
+
+          <!-- Billing -->
+          <div data-panel="billing" hidden>
+            <section class="card">
+              <div class="card-head">
+                <div>
+                  <h2>Paket langganan</h2>
+                  <p id="billing-summary" class="meta"></p>
+                </div>
+                <span class="badge">Bayar via transfer bank</span>
+              </div>
+              <div id="billing-plans" class="plan-grid"></div>
+            </section>
+            <section class="card">
+              <h2>Invoice dan cara bayar</h2>
+              <p class="muted">
+                Transfer sesuai nominal invoice, lalu klik Konfirmasi transfer.
+                Paket aktif setelah admin memeriksa dana masuk. Jangan transfer
+                untuk invoice yang sudah kedaluwarsa.
+              </p>
+              <p id="payment-instructions" class="preserve payment-box"></p>
+              <div id="invoice-list" class="list"></div>
+            </section>
+          </div>
+
+          <!-- Audit -->
+          <div data-panel="audit" hidden>
+            <section class="card">
+              <h2>Aktivitas workspace</h2>
+              <p class="muted">Perubahan penting oleh anggota tim tercatat di sini.</p>
+              <div id="audit-list" class="list"></div>
+              <div class="actions pager">
+                <button id="audit-more">Muat berikutnya</button>
+              </div>
+            </section>
+          </div>
+
+          <!-- Settings -->
+          <div data-panel="settings" hidden>
+            <div class="grid-2">
+              <section class="card" data-management>
+                <h2>Profil bisnis</h2>
+                <form id="workspace-form">
+                  <label
+                    >Nama workspace<input
+                      name="name"
+                      maxlength="100"
+                      required /></label
+                  ><button>Simpan nama</button>
+                </form>
+              </section>
+              <section class="card">
+                <h2>Ganti password</h2>
+                <form id="password-form">
+                  <label
+                    >Password saat ini<input
+                      name="current"
+                      type="password"
+                      required
+                      autocomplete="current-password" /></label
+                  ><label
+                    >Password baru<input
+                      name="password"
+                      type="password"
+                      minlength="12"
+                      maxlength="128"
+                      required
+                      autocomplete="new-password" /></label
+                  ><button>Ganti password dan keluar dari semua perangkat</button>
+                </form>
+              </section>
+            </div>
+            <section class="card zone-danger" data-owner>
+              <h2>Data workspace</h2>
+              <p class="muted">Unduh salinan data dalam format JSON kapan saja.</p>
+              <button id="export">Ekspor data JSON</button>
+              <details>
+                <summary class="danger">Hapus data operasional workspace</summary>
+                <p>
+                  Menghapus kontak, persetujuan, opt-out, template, campaign,
+                  dan sesi WhatsApp. Akun, langganan, invoice, dan catatan
+                  aktivitas tetap disimpan. Tindakan ini tidak bisa dibatalkan.
+                </p>
+                <form id="delete-form" class="grid-2">
+                  <label
+                    >Password<input
+                      name="password"
+                      type="password"
+                      required /></label
+                  ><label
+                    >Ketik DELETE untuk konfirmasi<input
+                      name="confirm"
+                      pattern="DELETE"
+                      required /></label
+                  ><button class="danger">Hapus data permanen</button>
+                </form>
+              </details>
+            </section>
+          </div>
+
+          <!-- Platform settings -->
+          <div data-panel="platform" hidden>
+            <section class="card">
+              <h2>Kesiapan layanan</h2>
+              <p class="muted">
+                Pengaturan tersimpan terenkripsi dan langsung berlaku tanpa
+                restart. Pendaftaran pelanggan baru dibuka setelah identitas,
+                email pengirim, dan rekening pembayaran lengkap.
+              </p>
+              <div id="platform-readiness" class="readiness"></div>
+            </section>
+            <form id="platform-form" class="card">
+              <div class="form-section">
+                <div>
+                  <h2>Identitas bisnis</h2>
+                  <p>Tampil di landing page, email, dan halaman legal.</p>
+                </div>
+                <div>
+                  <label
+                    >Nama brand<input
+                      name="brand"
+                      required
+                      maxlength="100" /></label
+                  ><label
+                    >Nama bisnis atau pengelola<input
+                      name="businessName"
+                      maxlength="200" /></label
+                  ><label
+                    >Email bantuan pelanggan<input
+                      name="supportEmail"
+                      type="email"
+                      maxlength="200" /></label
+                  ><label class="check"
+                    ><input name="publicSignup" type="checkbox" /><span
+                      >Buka pendaftaran publik setelah pengaturan lengkap</span
+                    ></label
+                  >
+                </div>
+              </div>
+              <div class="form-section">
+                <div>
+                  <h2>Email (SMTP)</h2>
+                  <p>
+                    Untuk verifikasi, reset password, dan undangan tim. Password
+                    tersimpan terenkripsi dan tidak ditampilkan lagi. Gmail
+                    memakai alamat email lengkap dan App Password.
+                  </p>
+                </div>
+                <div>
+                  <label class="check"
+                    ><input name="smtpEnabled" type="checkbox" /><span
+                      >Aktifkan pengiriman email</span
+                    ></label
+                  >
+                  <div class="grid-2">
+                    <label
+                      >Host SMTP<input
+                        name="smtpHost"
+                        placeholder="smtp.gmail.com"
+                        maxlength="253" /></label
+                    ><label
+                      >Port<input
+                        name="smtpPort"
+                        type="number"
+                        min="1"
+                        max="65535"
+                        value="587"
+                    /></label>
+                  </div>
+                  <label
+                    >Username SMTP<input
+                      name="smtpUsername"
+                      autocomplete="off"
+                      maxlength="300" /></label
+                  ><label
+                    >Password SMTP / App Password<input
+                      name="smtpPassword"
+                      type="password"
+                      autocomplete="new-password"
+                      maxlength="1000" /></label
+                  ><label class="check"
+                    ><input name="smtpSecure" type="checkbox" /><span
+                      >Pakai TLS langsung (biasanya port 465). Jika tidak
+                      dicentang, dipakai STARTTLS (biasanya port 587).</span
+                    ></label
+                  ><label
+                    >Email pengirim<input
+                      name="mailFrom"
+                      placeholder="nama@domain.com"
+                      maxlength="300"
+                  /></label>
+                </div>
+              </div>
+              <div class="form-section">
+                <div>
+                  <h2>Pembayaran dan harga</h2>
+                  <p>
+                    Harga baru berlaku untuk invoice berikutnya. Invoice yang
+                    sudah dibuat tetap memakai nominal lama.
+                  </p>
+                </div>
+                <div>
+                  <label
+                    >Instruksi transfer<textarea
+                      name="paymentInstructions"
+                      rows="4"
+                      maxlength="2000"
+                      placeholder="Bank, nomor rekening, nama penerima, dan cara konfirmasi"
+                    ></textarea>
+                  </label>
+                  <div class="grid-3">
+                    <label
+                      >Starter (Rp / 30 hari)<input
+                        name="priceStarter"
+                        type="number"
+                        min="1000"
+                        max="1000000000"
+                        required /></label
+                    ><label
+                      >Growth (Rp / 30 hari)<input
+                        name="priceGrowth"
+                        type="number"
+                        min="1000"
+                        max="1000000000"
+                        required /></label
+                    ><label
+                      >Business (Rp / 30 hari)<input
+                        name="priceBusiness"
+                        type="number"
+                        min="1000"
+                        max="1000000000"
+                        required
+                    /></label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-section">
+                <div>
+                  <h2>Simpan perubahan</h2>
+                  <p>Email tes memakai pengaturan terakhir yang sudah disimpan.</p>
+                </div>
+                <div>
+                  <label
+                    >Password akun admin<input
+                      name="currentPassword"
+                      type="password"
+                      autocomplete="current-password"
+                      required
+                      minlength="12"
+                      maxlength="128"
+                  /></label>
+                  <div class="actions">
+                    <button class="primary">Simpan pengaturan</button
+                    ><button type="button" id="platform-test-email">
+                      Kirim email tes ke akun saya
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Platform admin -->
+          <div data-panel="admin" hidden>
+            <div class="stats" id="admin-stats"></div>
+            <section class="card">
+              <h2>Pembayaran menunggu verifikasi</h2>
+              <p class="muted">
+                Pastikan dana benar-benar masuk ke rekening sebelum menyetujui.
+                Konfirmasi dari pelanggan tidak mengaktifkan paket.
+              </p>
+              <div id="admin-invoices" class="list"></div>
+            </section>
+            <section class="card">
+              <h2>Workspace pelanggan</h2>
+              <div id="admin-workspaces" class="list"></div>
+              <div class="actions pager">
+                <button id="admin-prev">Sebelumnya</button
+                ><button id="admin-next">Berikutnya</button>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
-      <footer>
-        <span data-brand>wablasting</span> ·
-        <a href="/terms.html">Ketentuan layanan</a> ·
-        <a href="/privacy.html">Privasi</a> ·
+
+      <footer class="app-foot">
+        <span>© <span data-brand>WABlast</span></span>
+        <a href="/terms.html">Ketentuan layanan</a>
+        <a href="/privacy.html">Kebijakan privasi</a>
         <a data-support href="/">Bantuan</a>
       </footer>
+
       <dialog id="confirm-dialog">
         <form method="dialog">
           <h2 id="confirm-title">Konfirmasi</h2>
@@ -601,10 +835,10 @@
           /></label>
           <div class="actions">
             <button value="cancel">Batal</button
-            ><button value="confirm" class="primary">Konfirmasi</button>
+            ><button value="confirm" class="primary" id="confirm-ok">Lanjutkan</button>
           </div>
         </form>
       </dialog>
-    </main>
+    </div>
   </body>
 </html>

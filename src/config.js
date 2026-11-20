@@ -1,7 +1,7 @@
 export const config = {
   production: process.env.NODE_ENV === "production",
   url: (process.env.APP_URL || "http://127.0.0.1:3000").replace(/\/$/, ""),
-  brand: process.env.BRAND_NAME || "wablasting",
+  brand: process.env.BRAND_NAME || "WABlast",
   secure: process.env.COOKIE_SECURE === "true",
   publicSignup: process.env.PUBLIC_SIGNUP === "true",
   adminEmails: (process.env.ADMIN_EMAILS || "")

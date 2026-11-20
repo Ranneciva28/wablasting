@@ -1,4 +1,4 @@
-# wablasting — SaaS workspace
+# WABlast — WhatsApp blasting SaaS
 
 Aplikasi SaaS WhatsApp berbasis **Baileys**, dengan landing page, dashboard pelanggan, paket, langganan transfer manual, tim, dan admin platform. v0.3.0 menargetkan **penjualan pilot satu server**. Deployment website, SMTP, rekening pembayaran, dan pengujian WhatsApp nyata harus dikonfigurasi oleh operator sebelum menerima pelanggan.
 

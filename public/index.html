@@ -5,159 +5,326 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       name="description"
-      content="Kelola campaign WhatsApp, kontak, template, dan tim bisnis dalam satu workspace."
+      content="WABlast: kirim pesan WhatsApp personal ke ratusan pelanggan dari nomor bisnismu. Kontak, template, jadwal, dan tim dalam satu workspace."
     />
-    <title>wablasting — Hubungan baik dimulai dari pesan personal</title>
-    <link rel="stylesheet" href="/style.css" />
-    <script defer src="/landing.js"></script>
+    <meta name="theme-color" content="#151c4e" />
+    <title>WABlast — Pesan WhatsApp personal untuk semua pelangganmu</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="/style.css?v=0.4.0" />
+    <script defer src="/landing.js?v=0.4.0"></script>
   </head>
   <body class="landing">
-    <div class="site-wrap">
-      <nav class="site-nav">
-        <a href="/" class="brand" data-brand>wablasting</a>
-        <div>
-          <a href="#features">Fitur</a><a href="#pricing">Harga</a
-          ><a class="button" href="/app">Masuk</a>
-        </div>
+    <header class="wrap site-nav">
+      <a href="/" class="brand" aria-label="Beranda">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" fill="#24307f" />
+          <path
+            d="M8.5 9h9.5a3.5 3.5 0 0 1 3.5 3.5v4a3.5 3.5 0 0 1-3.5 3.5h-4.6L9.6 23v-3.1A3.5 3.5 0 0 1 5 16.5v-4A3.5 3.5 0 0 1 8.5 9z"
+            fill="#fff"
+          />
+          <path
+            d="M24.2 10.6a7 7 0 0 1 0 7.8M26.9 8.4a10.4 10.4 0 0 1 0 12.2"
+            stroke="#f2b33d"
+            stroke-width="2"
+            stroke-linecap="round"
+            fill="none"
+          />
+        </svg>
+        <span data-brand>WABlast</span>
+      </a>
+      <nav aria-label="Navigasi utama">
+        <a href="#cara-kerja">Cara kerja</a>
+        <a href="#fitur">Fitur</a>
+        <a href="#harga">Harga</a>
+        <a href="#tanya-jawab">Tanya jawab</a>
+        <a class="button" href="/app">Masuk</a>
       </nav>
-      <section class="hero">
+    </header>
+
+    <main>
+      <section class="wrap hero">
         <div>
-          <p class="eyebrow">A LITTLE MORE PERSONAL. A LOT MORE ORGANIZED.</p>
-          <h1>
-            Pesan personal.<br />Hubungan yang<br /><em>terus tumbuh.</em>
-          </h1>
-          <p>
-            Workspace WhatsApp untuk bisnis yang ingin tetap dekat dengan
-            pelanggannya. Kelola kontak, siapkan campaign, dan bekerja bersama
-            tim—dari satu tempat.
+          <h1>Satu pesan untuk ratusan pelanggan, tetap terasa personal.</h1>
+          <p class="hero-lead">
+            Kirim kabar promo, pengingat, atau info pesanan lewat WhatsApp
+            bisnismu. Setiap pelanggan disapa dengan namanya, dikirim
+            bertahap sesuai jadwal, dan kamu bisa melihat status tiap penerima.
           </p>
           <div class="actions">
             <a href="/app#register" class="button primary"
-              >Mulai trial 7 hari ↗</a
-            ><a href="#pricing" class="button">Temukan paketmu</a>
+              >Coba gratis 7 hari</a
+            >
+            <a href="#harga" class="button">Lihat harga</a>
           </div>
-          <small>Tanpa kartu kredit · 1 nomor WhatsApp per workspace</small>
+          <small class="hero-note"
+            >Tanpa kartu kredit. Cukup scan QR dari HP-mu.</small
+          >
         </div>
-        <div class="hero-art" aria-label="Ilustrasi workspace campaign">
-          <div class="mock-head">
-            <span class="dot"></span> YOUR MESSAGING WORKSPACE <span>↗</span>
+
+        <div class="demo" aria-label="Contoh: satu template dikirim ke empat pelanggan">
+          <div class="demo-template">
+            <div class="demo-template-head">
+              <span>Template campaign</span><span>Promo restock</span>
+            </div>
+            <p>
+              Halo <span class="token">{{nama}}</span>, batik tulis motif
+              parang sudah restock. Mau kami sisihkan satu? Balas STOP untuk
+              berhenti.
+            </p>
           </div>
-          <div class="mock-card">
-            <p>CAMPAIGN PELANGGAN</p>
-            <h2>Bukan sekadar pesan.<br />Awal percakapan.</h2>
-            <div class="message">
-              <b>Halo, Rani 👋</b>
+          <div class="demo-fan">dikirim ke 4 pelanggan</div>
+          <div class="stack" id="demo-stack">
+            <div class="msg" data-state="sent">
+              <span class="contact-avatar">RA</span>
+              <span><b>Halo Rani,</b> batik tulis motif parang…</span>
+              <span class="tick" data-tone="ok">Terkirim</span>
+            </div>
+            <div class="msg" data-state="sent">
+              <span class="contact-avatar">BS</span>
+              <span><b>Halo Budi,</b> batik tulis motif parang…</span>
+              <span class="tick" data-tone="ok">Terkirim</span>
+            </div>
+            <div class="msg" data-state="sent">
+              <span class="contact-avatar">SL</span>
+              <span><b>Halo Sari,</b> batik tulis motif parang…</span>
+              <span class="tick" data-tone="ok">Terkirim</span>
+            </div>
+            <div class="msg" data-state="sent">
+              <span class="contact-avatar">DP</span>
+              <span><b>Halo Dewi,</b> batik tulis motif parang…</span>
+              <span class="tick" data-tone="ok">Terkirim</span>
+            </div>
+          </div>
+          <div class="demo-foot">
+            <span><b id="demo-count">4</b> dari 4 terkirim</span>
+            <span>0 opt-out</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="band section" id="cara-kerja">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Siap kirim dalam tiga langkah.</h2>
+            <p>
+              Tidak perlu instal aplikasi atau ganti nomor. WABlast memakai
+              nomor WhatsApp yang sudah kamu pakai sehari-hari.
+            </p>
+          </div>
+          <ol class="flow">
+            <li>
+              <h3>Tautkan nomor WhatsApp</h3>
               <p>
-                Terima kasih sudah jadi bagian dari perjalanan kami. Ada kabar
-                baru yang ingin kami bagikan.
+                Buka WhatsApp di HP, pilih Perangkat tertaut, lalu scan QR dari
+                dashboard.
               </p>
-              <small>Balas STOP untuk berhenti menerima pesan.</small>
-            </div>
-            <div class="mock-foot">
-              <span>Personal by design.</span><strong>01 → 02 → 03</strong>
-            </div>
-          </div>
-          <div class="float-tag">✓ Kontak rapi. Tim selaras.</div>
+            </li>
+            <li>
+              <h3>Masukkan kontak pelanggan</h3>
+              <p>
+                Tambah satu per satu atau impor CSV. Catat dari mana pelanggan
+                memberi izin untuk dihubungi.
+              </p>
+            </li>
+            <li>
+              <h3>Tulis pesan dan kirim</h3>
+              <p>
+                Pakai <code>{{nama}}</code> agar setiap pesan menyapa
+                penerimanya. Kirim sekarang atau jadwalkan.
+              </p>
+            </li>
+          </ol>
         </div>
       </section>
-      <div class="feature-strip">
-        <span>QR pairing</span><span>Template personal</span
-        ><span>Jadwal campaign</span><span>Workspace tim</span
-        ><span>Kontrol kuota</span>
-      </div>
-      <section id="features" class="marketing-section">
-        <p class="eyebrow">EVERYTHING IN ITS PLACE</p>
-        <h2>Lebih tertata.<br />Lebih mudah dijalankan.</h2>
-        <div class="feature-grid">
-          <article>
-            <b>01 / AUDIENCE</b>
-            <h3>Kenali penerimamu.</h3>
-            <p>
-              Impor CSV, simpan sumber persetujuan, dan kelola daftar opt-out.
-              Kirim kepada pelanggan yang memang ingin mendengar dari bisnismu.
-            </p>
+
+      <section class="wrap section" id="fitur">
+        <div class="section-head">
+          <h2>Semua yang dibutuhkan tim untuk menghubungi pelanggan.</h2>
+        </div>
+        <div class="features">
+          <article class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+            <div>
+              <h3>Kontak yang rapi</h3>
+              <p>
+                Impor hingga 1.000 kontak sekali jalan. Bukti persetujuan
+                tersimpan bersama tiap nomor.
+              </p>
+            </div>
           </article>
-          <article>
-            <b>02 / CAMPAIGNS</b>
-            <h3>Siapkan pesan yang relevan.</h3>
-            <p>
-              Personalisasi nama, pakai template, jadwalkan campaign, dan
-              periksa status setiap penerima.
-            </p>
+          <article class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 9h8M8 13h5" /></svg>
+            <div>
+              <h3>Template dan sapaan nama</h3>
+              <p>
+                Simpan pesan yang sering dipakai. Nama pelanggan terisi
+                otomatis di setiap pesan.
+              </p>
+            </div>
           </article>
-          <article>
-            <b>03 / TEAM</b>
-            <h3>Satu tim. Satu workspace.</h3>
-            <p>
-              Undang anggota dengan role yang jelas. Data bisnis terpisah,
-              pemakaian terukur, dan perubahan penting tercatat.
-            </p>
+          <article class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18M12 14v3l2 1" /></svg>
+            <div>
+              <h3>Jadwal dan kontrol penuh</h3>
+              <p>
+                Jadwalkan hingga 30 hari ke depan. Jeda, lanjutkan, atau
+                batalkan campaign kapan saja.
+              </p>
+            </div>
+          </article>
+          <article class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+            <div>
+              <h3>Status tiap penerima</h3>
+              <p>
+                Lihat siapa yang sudah terkirim, masih antre, atau perlu
+                dicek manual. Tidak ada kirim ulang diam-diam.
+              </p>
+            </div>
+          </article>
+          <article class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M5.7 5.7l12.6 12.6" /></svg>
+            <div>
+              <h3>Opt-out otomatis</h3>
+              <p>
+                Pelanggan yang membalas STOP, BERHENTI, atau UNSUBSCRIBE tidak
+                akan menerima pesan berikutnya.
+              </p>
+            </div>
+          </article>
+          <article class="feature">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="M9 12l2 2 4-4" /></svg>
+            <div>
+              <h3>Kerja bareng tim</h3>
+              <p>
+                Undang admin dan operator dengan hak akses berbeda. Setiap
+                perubahan penting tercatat.
+              </p>
+            </div>
           </article>
         </div>
       </section>
-      <section id="pricing" class="marketing-section">
-        <div class="sectionhead">
-          <div>
-            <p class="eyebrow">ROOM TO GROW</p>
-            <h2>Pilih ruang untuk bertumbuh.</h2>
+
+      <section class="band section">
+        <div class="wrap honest">
+          <div class="section-head">
+            <h2>Dibuat untuk pesan yang memang ditunggu pelanggan.</h2>
+            <p>
+              WABlast bukan alat spam. Kami menjaga reputasi nomormu dengan
+              aturan yang jelas sejak awal.
+            </p>
           </div>
-          <p>Periode 30 hari.<br />Aktivasi setelah verifikasi transfer.</p>
+          <ul>
+            <li>
+              <b>Hanya ke kontak yang sudah setuju</b>Setiap kontak wajib punya
+              catatan sumber persetujuan.
+            </li>
+            <li>
+              <b>Dikirim satu per satu</b>Pesan keluar bertahap, bukan sekaligus,
+              dan berhenti bila koneksi bermasalah.
+            </li>
+            <li>
+              <b>Jujur soal batasan</b>WABlast memakai koneksi WhatsApp Web
+              tidak resmi. Kami tidak menjanjikan anti-blokir.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="wrap section" id="harga">
+        <div class="section-head">
+          <h2>Harga per 30 hari, tanpa tagihan otomatis.</h2>
+          <p>
+            Mulai dengan trial 7 hari. Saat cocok, pilih paket dan bayar lewat
+            transfer bank. Paket aktif setelah pembayaran diverifikasi.
+          </p>
         </div>
         <div id="pricing-grid" class="plan-grid"></div>
-        <p class="muted">
-          Kuota adalah jumlah penerima yang dialokasikan ke campaign. Pengiriman
-          yang dibatalkan atau hasilnya tidak pasti tetap mengurangi kuota.
-          Trial: 50 penerima, 100 kontak, 1 anggota selama 7 hari.
+        <p class="pricing-note">
+          Kuota dihitung per penerima saat campaign dibuat. Campaign yang
+          dibatalkan atau hasilnya belum pasti tetap memakai kuota. Trial: 50
+          penerima, 100 kontak, 1 anggota selama 7 hari.
         </p>
       </section>
-      <section class="marketing-section faq">
-        <p class="eyebrow">GOOD TO KNOW</p>
-        <h2>Sebelum memulai.</h2>
-        <details>
-          <summary>Bagaimana cara menghubungkan WhatsApp?</summary>
-          <p>
-            Daftar, verifikasi email, lalu scan QR dari menu Perangkat tertaut
-            di WhatsApp. Nomor kamu akan terhubung sebagai perangkat tertaut.
-          </p>
-        </details>
-        <details>
-          <summary>Apakah ini WhatsApp Business Platform resmi?</summary>
-          <p>
-            Bukan. Layanan menggunakan Baileys, klien unofficial WhatsApp Web.
-            Tidak terafiliasi dengan WhatsApp/Meta. Koneksi dapat berubah
-            mengikuti protokol dan akun dapat dibatasi. Tidak ada jaminan
-            anti-ban atau pesan selalu sampai.
-          </p>
-        </details>
-        <details>
-          <summary>Bagaimana pembayaran dan perpanjangan?</summary>
-          <p>
-            Pilih paket untuk membuat invoice, transfer sesuai instruksi, lalu
-            kirim referensi transfer. Admin memverifikasi sebelum paket aktif.
-            Tidak ada penagihan berulang otomatis. Perpanjangan tersedia saat
-            periode berbayar berakhir.
-          </p>
-        </details>
-        <details>
-          <summary>Bisakah saya berhenti menerima atau mengirim pesan?</summary>
-          <p>
-            Campaign bisa dijeda atau dibatalkan. Daftar opt-out menahan
-            pengiriman berikutnya; penerima dapat membalas STOP, BERHENTI, atau
-            UNSUBSCRIBE. Satu pesan yang sedang diproses mungkin sudah terkirim.
-          </p>
-        </details>
+
+      <section class="band section" id="tanya-jawab">
+        <div class="wrap faq">
+          <div class="section-head">
+            <h2>Tanya jawab</h2>
+          </div>
+          <details>
+            <summary>Bagaimana cara menghubungkan WhatsApp?</summary>
+            <p>
+              Daftar dan verifikasi email. Di dashboard, pilih WhatsApp lalu
+              Hubungkan. Buka WhatsApp di HP, masuk ke Perangkat tertaut, dan
+              scan QR yang muncul. Nomormu tersambung sebagai perangkat tertaut.
+            </p>
+          </details>
+          <details>
+            <summary>Apakah WABlast layanan resmi WhatsApp?</summary>
+            <p>
+              Bukan. WABlast memakai Baileys, klien WhatsApp Web tidak resmi,
+              dan tidak berafiliasi dengan WhatsApp atau Meta. Koneksi dapat
+              berubah mengikuti protokol, dan akun bisa dibatasi oleh WhatsApp.
+              Tidak ada jaminan anti-blokir atau pesan selalu sampai.
+            </p>
+          </details>
+          <details>
+            <summary>Bagaimana cara bayar dan memperpanjang?</summary>
+            <p>
+              Pilih paket untuk membuat invoice, transfer sesuai nominal, lalu
+              kirim referensi transfer dari dashboard. Paket aktif setelah admin
+              memverifikasi dana masuk. Tidak ada penagihan berulang;
+              perpanjangan dibuka setelah periode berbayar berakhir.
+            </p>
+          </details>
+          <details>
+            <summary>Bisakah campaign dihentikan di tengah jalan?</summary>
+            <p>
+              Bisa. Campaign dapat dijeda atau dibatalkan kapan saja. Satu pesan
+              yang sedang diproses saat itu mungkin sudah terkirim.
+            </p>
+          </details>
+          <details>
+            <summary>Bagaimana kalau pelanggan tidak mau menerima pesan lagi?</summary>
+            <p>
+              Pelanggan cukup membalas STOP, BERHENTI, atau UNSUBSCRIBE. Nomornya
+              otomatis masuk daftar opt-out. Kamu juga bisa menambahkan nomor
+              secara manual.
+            </p>
+          </details>
+        </div>
       </section>
-      <section class="cta">
-        <p class="eyebrow">MAKE YOUR NEXT MESSAGE MATTER</p>
-        <h2>Mulai dari percakapan<br />yang lebih baik.</h2>
-        <a href="/app#register" class="button">Buat workspace ↗</a>
-      </section>
-      <footer>
-        <a href="/" data-brand>wablasting</a
-        ><span>© <span id="year"></span> <span data-business></span></span
-        ><a href="/terms.html">Ketentuan</a><a href="/privacy.html">Privasi</a
-        ><a data-support href="/app">Bantuan</a>
-      </footer>
-    </div>
+
+      <div class="wrap section">
+        <section class="cta">
+          <div>
+            <h2>Kirim campaign pertamamu hari ini.</h2>
+            <p>Trial 7 hari, 50 penerima, tanpa kartu kredit.</p>
+          </div>
+          <a href="/app#register" class="button accent">Buat akun gratis</a>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <small
+          >© <span id="year"></span> <span data-business>WABlast</span></small
+        >
+        <nav aria-label="Tautan kaki">
+          <a href="/terms.html">Ketentuan layanan</a>
+          <a href="/privacy.html">Kebijakan privasi</a>
+          <a data-support href="/app">Bantuan</a>
+          <a href="/app">Masuk</a>
+        </nav>
+      </div>
+    </footer>
   </body>
 </html>
