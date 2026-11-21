@@ -6,6 +6,7 @@ RUN npm ci --omit=dev
 COPY src ./src
 COPY scripts ./scripts
 COPY public ./public
+COPY db ./db
 RUN mkdir data && chown node:node data
 USER node
 ENV HOST=0.0.0.0 PORT=3000 DATA_DIR=/app/data
